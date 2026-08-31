@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SAAD KHAN — NEET 2027 MASTER PLANNER</title>
+<style>
+:root{
+ --bg:#f4f6fb;--card:#fff;--ink:#172033;--muted:#687386;--line:#e4e8f0;
+ --nav:#121b2d;--p:#e65100;--c:#7b2cbf;--b:#168a55;--z:#b56b00;
+ --accent:#5b4bdb;--good:#168a55;--warn:#d97706;--bad:#dc3545;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,Arial,sans-serif;font-size:16px;padding-bottom:82px}
+button,input,select,textarea{font:inherit} button{cursor:pointer;border:0}
+header{background:linear-gradient(135deg,#10182a,#273450);color:#fff;padding:18px 16px 20px;position:sticky;top:0;z-index:20}
+.headtop{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+h1{font-size:25px;margin:0;font-weight:900;letter-spacing:.4px}.pill{display:inline-block;margin-top:8px;border:1px solid #59657b;border-radius:99px;padding:7px 12px;font-weight:800;font-size:13px}
+.datebox{text-align:right;font-weight:800;color:#dbe4f4}.datebox small{display:block;color:#aeb9cc;margin-top:5px}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:17px}.stat{background:#ffffff0d;border:1px solid #ffffff14;border-radius:15px;padding:10px 4px;text-align:center}.stat b{font-size:18px;display:block}.stat span{font-size:11px;color:#c1cad9}
+main{max-width:850px;margin:auto;padding:14px}
+.view{display:none}.view.active{display:block}.hero{background:linear-gradient(135deg,#4e3bc8,#795de0);padding:18px;border-radius:24px;color:#fff;margin-bottom:14px}.hero h2{margin:0;font-size:25px}.hero p{margin:7px 0 0;color:#e7e3ff}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:15px;margin:10px 0;box-shadow:0 4px 15px #17203308}
+.card h2,.card h3{margin:0 0 10px}.muted{color:var(--muted)}
+.subject{border-left:6px solid;border-radius:18px}.physics{border-color:var(--p)}.chemistry{border-color:var(--c)}.botany{border-color:var(--b)}.zoology{border-color:var(--z)}
+.subject-title{display:flex;justify-content:space-between;align-items:center;font-size:18px;font-weight:900}.lecture{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.lecture:last-child{border:0}.lecture input{width:25px;height:25px;accent-color:var(--good)}.lecture small{display:block;color:var(--muted);margin-top:3px}
+.progress{height:9px;background:#e8ebf2;border-radius:10px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,#4e3bc8,#12a46d);border-radius:10px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.action,.primary,.danger{padding:12px 15px;border-radius:13px;font-weight:800;background:#edf0f6;color:var(--ink);min-height:46px}.primary{background:var(--accent);color:#fff}.danger{background:#ffe8e8;color:#b42318}.wide{width:100%;margin-top:8px}
+input,select,textarea{width:100%;border:1px solid #dce1ea;border-radius:12px;padding:11px;background:#fff;margin:5px 0 10px}textarea{min-height:110px}
+details{border:1px solid var(--line);border-radius:15px;margin:8px 0;padding:11px;background:#fff}summary{font-weight:850;cursor:pointer}
+.topic{padding:9px;border-bottom:1px solid var(--line)}.topic:last-child{border:0}.tag{display:inline-block;padding:4px 8px;border-radius:99px;background:#edf0f6;font-size:11px;font-weight:800;margin:2px}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);z-index:30;padding-bottom:env(safe-area-inset-bottom)}
+.nav button{background:#fff;color:#5c6676;padding:9px 2px;font-size:11px;font-weight:800}.nav button b{display:block;font-size:25px;margin-bottom:3px}.nav button.active{color:#4e3bc8}
+.menu{position:fixed;inset:0;background:#f6f7fb;z-index:50;overflow:auto;padding:18px;display:none}.menu.show{display:block}.menu h2{font-size:28px}.tool{width:100%;text-align:left;padding:17px;border-radius:18px;margin:7px 0;background:#fff;font-weight:850;font-size:18px;border:1px solid var(--line)}
+.close{float:right;font-size:28px;background:#fff;border-radius:15px;width:52px;height:52px}
+.dayrow{display:flex;justify-content:space-between;gap:8px;padding:12px 0;border-bottom:1px solid var(--line)}
+.checkrow{display:flex;gap:10px;align-items:center;padding:8px 0}.checkrow input{width:23px;height:23px;margin:0}
+.small{font-size:12px}.big{font-size:30px;font-weight:900}.center{text-align:center}
+.table{width:100%;border-collapse:collapse;font-size:13px}.table td,.table th{padding:9px;border-bottom:1px solid var(--line);text-align:left}
+canvas{width:100%;height:160px;background:#fafbfe;border-radius:14px}
+.hidden{display:none}
+@media(max-width:430px){.stats{grid-template-columns:repeat(5,1fr)}.stat b{font-size:15px}main{padding:10px}.grid2{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="headtop">
+  <div><h1>SAAD KHAN</h1><div class="pill">NEET 2027 MASTER PLANNER</div></div>
+  <div class="datebox" id="dateHead">31 Aug 2026<small>Planner Date</small></div>
+ </div>
+ <div class="stats">
+  <div class="stat"><b id="streak">0</b><span>Streak</span></div>
+  <div class="stat"><b id="todayPct">0%</b><span>Today</span></div>
+  <div class="stat"><b id="hoursStat">0h</b><span>Study</span></div>
+  <div class="stat"><b id="accuracyStat">0%</b><span>Accuracy</span></div>
+  <div class="stat"><b id="syllabusStat">0%</b><span>Syllabus</span></div>
+ </div>
+</header>
+
+<main>
+<section id="today" class="view active"></section>
+<section id="days" class="view"></section>
+<section id="calendar" class="view"></section>
+<section id="syllabus" class="view"></section>
+<section id="chapter" class="view"></section>
+<section id="progress" class="view"></section>
+<section id="toolview" class="view"></section>
+</main>
+
+<div class="menu" id="menu">
+ <button class="close" onclick="toggleMenu()">×</button>
+ <h2>More Tools</h2>
+ <button class="tool" onclick="openTool('weekly')">📈 Weekly Targets</button>
+ <button class="tool" onclick="openTool('monthly')">🗓 Monthly Targets</button>
+ <button class="tool" onclick="openTool('timer')">⏱ Study Timer</button>
+ <button class="tool" onclick="openTool('revision')">🔄 Revision</button>
+ <button class="tool" onclick="openTool('questions')">📝 Questions</button>
+ <button class="tool" onclick="openTool('ncert')">📖 NCERT Tracker</button>
+ <button class="tool" onclick="openTool('notes')">📝 Short Notes</button>
+ <button class="tool" onclick="openTool('formula')">⚡ Formula Bank</button>
+ <button class="tool" onclick="openTool('mindmaps')">🧠 Mind Maps & Mnemonics</button>
+ <button class="tool" onclick="openTool('maths')">🧮 Basic Maths & Numerical Guide</button>
+ <button class="tool" onclick="openTool('units')">📐 Unit Converter & Physics Quantities</button>
+ <button class="tool" onclick="openTool('error')">❌ Error Book</button>
+ <button class="tool" onclick="openTool('weak')">⚠️ Weak / Strong Topics</button>
+ <button class="tool" onclick="openTool('tests')">🧪 Tests</button>
+ <button class="tool" onclick="openTool('resources')">📁 Resources & Bookmarks</button>
+ <button class="tool" onclick="openTool('focus')">🚫 Focus Mode</button>
+ <button class="tool" onclick="openTool('janmay')">🎓 January–May Plan</button>
+ <button class="tool" onclick="openTool('completed')">✅ Completed Chapters</button>
+ <button class="tool" onclick="openTool('settings')">⚙️ Settings</button>
+</div>
+
+<nav class="nav">
+ <button class="active" onclick="showView('today',this)"><b>🎯</b>Today</button>
+ <button onclick="showView('days',this)"><b>📅</b>All Days</button>
+ <button onclick="showView('syllabus',this)"><b>📚</b>Syllabus</button>
+ <button onclick="showView('progress',this)"><b>📊</b>Progress</button>
+ <button onclick="toggleMenu()"><b>☰</b>More</button>
+</nav>
+
+<script>
+"use strict";
+
+/* ---------- COMPLETE SYLLABUS DATABASE ---------- */
+const SYLLABUS=[
+["Physics","12","Basic Maths",7],["Physics","12","Vector",3],["Physics","12","Electrostatics",19],["Physics","12","Capacitor",7],["Physics","12","Current Electricity",13],["Physics","12","Magnetic Effects of Current",16],["Physics","12","EMI",10],["Physics","12","AC",5],["Physics","12","EMW",2],["Physics","12","Ray Optics",20],["Physics","12","Wave Optics",10],["Physics","12","Modern Physics",13],["Physics","12","Semi Conductor",10],
+["Physics","11","Kinematics",17],["Physics","11","NLM and Friction",15],["Physics","11","Work, Power, Energy",7],["Physics","11","Centre of Mass Collisions",7],["Physics","11","Circular Motion",6],["Physics","11","Rotation Motion",10],["Physics","11","Gravitation",8],["Physics","11","Fluids and Elasticity",12],["Physics","11","SHM",8],["Physics","11","Waves",12],["Physics","11","Heats & Thermodynamic",24],
+["Chemistry","12","Solutions",13],["Chemistry","12","Electrochemistry",14],["Chemistry","12","Chemical Kinetics",13],["Chemistry","12","d & f block",5],["Chemistry","12","Co-ordination Compound",12],["Chemistry","12","p-block",8],["Chemistry","12","Salt Analysis",10],["Chemistry","12","Halogen Derivative",8],["Chemistry","12","Alcohol, Phenol, Ether",8],["Chemistry","12","Aldehyde, Ketone, Carboxylic Acid",8],["Chemistry","12","Amine / Amines",5],["Chemistry","12","Aromatic Hydrocarbons",8],["Chemistry","12","Biomolecules",3],
+["Chemistry","11","Some Basic Concepts of Chemistry",8],["Chemistry","11","Atomic Structure",11],["Chemistry","11","Thermodynamics",15],["Chemistry","11","Chemical Equilibrium",8],["Chemistry","11","Ionic Equilibrium",15],["Chemistry","11","Redox Reaction",5],["Chemistry","11","IUPAC Nomenclature",8],["Chemistry","11","Isomerism",12],["Chemistry","11","GOC-I",12],["Chemistry","11","Hydrocarbon (Reaction Mechanism)",10],["Chemistry","11","Periodic Table",16],["Chemistry","11","Chemical Bonding",20],
+["Botany","12","Sexual Reproduction in Flowering Plant",8],["Botany","12","Principle of Inheritance and Variation",13],["Botany","12","Molecular Basis of Inheritance",11],["Botany","12","Microbes in Human Welfare",2],["Botany","12","Organisms and Population",4],["Botany","12","Ecosystem",2],["Botany","12","Biodiversity and Conservation",2],
+["Botany","11","The Living World",3],["Botany","11","Biological Classification",6],["Botany","11","Plant Kingdom",7],["Botany","11","Morphology of Flowering Plants",6],["Botany","11","Anatomy of Flowering Plants",6],["Botany","11","Cell - The Unit of Life",9],["Botany","11","Cell Cycle and Cell Division",7],["Botany","11","Photosynthesis in Higher Plants",6],["Botany","11","Respiration in Plants",6],["Botany","11","Plant Growth and Development",4],
+["Zoology","12","Human Reproduction",9],["Zoology","12","Reproductive Health",4],["Zoology","12","Human Health & Diseases",7],["Zoology","12","Biotechnology: Principles & Processes",5],["Zoology","12","Biotechnology and its Applications",4],["Zoology","12","Evolution",6],
+["Zoology","11","Animal Kingdom",7],["Zoology","11","Structural Organization in Animals",13],["Zoology","11","Biomolecules",6],["Zoology","11","Breathing & Exchange of Gases",7],["Zoology","11","Body Fluids & Circulation",8],["Zoology","11","Excretory Products & Their Elimination",6],["Zoology","11","Locomotion & Movement",6],["Zoology","11","Neural Control & Coordination",7],["Zoology","11","Chemical Coordination & Integration",6]
+];
+
+const SEQ={
+ Physics:["Basic Maths","Vector","Electrostatics","Capacitor","Current Electricity","Magnetic Effects of Current","EMI","AC","EMW","Ray Optics","Wave Optics","Modern Physics","Semi Conductor","Kinematics","NLM and Friction","Work, Power, Energy","Centre of Mass Collisions","Circular Motion","Rotation Motion","Gravitation","Fluids and Elasticity","SHM","Waves","Heats & Thermodynamic"],
+ Chemistry:["Solutions","Electrochemistry","Chemical Kinetics","d & f block","Co-ordination Compound","p-block","Salt Analysis","Halogen Derivative","Alcohol, Phenol, Ether","Aldehyde, Ketone, Carboxylic Acid","Amine / Amines","Aromatic Hydrocarbons","Biomolecules","Some Basic Concepts of Chemistry","Atomic Structure","Thermodynamics","Chemical Equilibrium","Ionic Equilibrium","Redox Reaction","IUPAC Nomenclature","Isomerism","GOC-I","Hydrocarbon (Reaction Mechanism)","Periodic Table","Chemical Bonding"],
+ Botany:["Sexual Reproduction in Flowering Plant","Principle of Inheritance and Variation","Molecular Basis of Inheritance","Microbes in Human Welfare","Organisms and Population","Ecosystem","Biodiversity and Conservation","The Living World","Biological Classification","Plant Kingdom","Morphology of Flowering Plants","Anatomy of Flowering Plants","Cell - The Unit of Life","Cell Cycle and Cell Division","Photosynthesis in Higher Plants","Respiration in Plants","Plant Growth and Development"],
+ Zoology:["Human Reproduction","Reproductive Health","Human Health & Diseases","Biotechnology: Principles & Processes","Biotechnology and its Applications","Evolution","Animal Kingdom","Structural Organization in Animals","Biomolecules","Breathing & Exchange of Gases","Body Fluids & Circulation","Excretory Products & Their Elimination","Locomotion & Movement","Neural Control & Coordination","Chemical Coordination & Integration"]
+};
+const DAILY={Physics:3,Chemistry:3,Botany:3,Zoology:3}; // 12 lectures/day
+const START="2026-08-31", END="2026-12-30";
+const PRIORITY=["Electrostatics","Current Electricity","Magnetic Effects of Current","Ray Optics","Modern Physics","Chemical Bonding","Thermodynamics","Equilibrium","Solutions","Electrochemistry","Human Reproduction","Molecular Basis of Inheritance","Principle of Inheritance and Variation","Cell - The Unit of Life","Photosynthesis in Higher Plants","Body Fluids & Circulation"];
+
+let state;
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2)}
+function chapterInfo(name){return SYLLABUS.find(x=>x[2]===name)}
+function safeNum(x){return isFinite(+x)?+x:0}
+function fmtDate(s){return new Date(s+"T12:00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"})}
+function addDays(date,n){let d=new Date(date+"T12:00:00");d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)}
+
+function defaultState(){
+ return {version:1,date:START,completed:{},topicStatus:{},ncert:{},questions:{},notes:{},errors:[],revisions:[],sessions:[],backlog:[],chapterDone:{},timer:null,settings:{hours:10},daily:{},manualHours:{},bookmarks:[]}
+}
+function load(){try{let x=JSON.parse(localStorage.getItem("saad_neet_final_v1"));state=x&&x.version?x:defaultState()}catch(e){state=defaultState()}save()}
+function save(){try{localStorage.setItem("saad_neet_final_v1",JSON.stringify(state))}catch(e){}}
+
+/* ---------- FIXED LECTURE GENERATION ---------- */
+function lectureKey(sub,ch,n){return sub+"|"+ch+"|"+n}
+function getNextLectures(sub,count,date){
+ let result=[], backlog=state.backlog.filter(x=>x.subject===sub&&!state.completed[lectureKey(x.subject,x.chapter,x.lecture)]);
+ for(let b of backlog){if(result.length<count+1)result.push({...b,backlog:true})}
+ let sequence=SEQ[sub];
+ for(let ch of sequence){
+   if(state.chapterDone[ch])continue;
+   let info=chapterInfo(ch); if(!info)continue;
+   for(let n=1;n<=info[3]&&result.length<count;n++){
+    let key=lectureKey(sub,ch,n);
+    if(!state.completed[key]&&!result.some(x=>x.chapter===ch&&x.lecture===n))result.push({subject:sub,chapter:ch,lecture:n,total:info[3]})
+   }
+   if(result.length>=count)break;
+ }
+ return result;
+}
+function dailyPlan(date){
+ let p={Physics:getNextLectures("Physics",DAILY.Physics,date),Chemistry:getNextLectures("Chemistry",DAILY.Chemistry,date),Botany:getNextLectures("Botany",DAILY.Botany,date),Zoology:getNextLectures("Zoology",DAILY.Zoology,date)};
+ return p;
+}
+function subjectClass(ch){let x=chapterInfo(ch);return x?x[1]:""}
+function className(s){return s.toLowerCase()}
+
+/* ---------- RENDER TODAY ---------- */
+function renderToday(){
+ let date=state.date,plan=dailyPlan(date), total=0,done=0;
+ let html=`<div class="hero"><h2>🎯 TODAY'S TARGET</h2><p>${fmtDate(date)} • <b>12 lectures planned</b></p></div>
+ <div class="card"><button class="primary wide" onclick="whatNow()">🎯 WHAT SHOULD I DO NOW?</button><div id="nowResult" class="center muted" style="padding-top:8px"></div></div>`;
+ for(let sub of Object.keys(plan)){
+  let arr=plan[sub]; total+=arr.length;done+=arr.filter(x=>state.completed[lectureKey(x.subject,x.chapter,x.lecture)]).length;
+  let icon={Physics:"⚡",Chemistry:"🧪",Botany:"🌿",Zoology:"🦁"}[sub];
+  html+=`<div class="card subject ${className(sub)}"><div class="subject-title"><span>${icon} ${sub.toUpperCase()}</span><span>${arr.length} lectures</span></div>`;
+  arr.forEach(x=>{
+   let k=lectureKey(x.subject,x.chapter,x.lecture),checked=state.completed[k]?"checked":"";
+   html+=`<label class="lecture"><input type="checkbox" ${checked} onchange="toggleLecture('${x.subject}',${JSON.stringify(x.chapter)},${x.lecture},this.checked)"><span><b>${x.chapter} — Lecture ${x.lecture} of ${x.total}</b><small>Class ${subjectClass(x.chapter)} ${x.backlog?"• ⚠ Backlog":""}</small></span></label>`;
+  }); html+=`</div>`;
+ }
+ let ncertCh=[...new Set([...plan.Botany,...plan.Zoology].map(x=>x.chapter))];
+ html+=`<div class="card"><h2>📖 NCERT TODAY</h2><p class="muted">Biology NCERT reading connected to today's chapters.</p>`;
+ ncertCh.forEach(ch=>html+=`<div class="checkrow"><input type="checkbox" ${state.ncert[ch]?.read?"checked":""} onchange="setNCERT('${ch}','read',this.checked)"><b>${ch}</b> — Read & active recall</div>`);
+ html+=`</div><div class="card"><h2>📝 Questions</h2><div class="grid2"><button class="action" onclick="openTool('questions')">Today's Question Targets</button><button class="action" onclick="openTool('revision')">🔄 Due Revisions</button></div></div>
+ <div class="card"><h2>⏱ Daily Timetable</h2>${timetable(plan)}</div>
+ <button class="primary wide" onclick="finishDay()">✅ COMPLETE DAY & GO TO NEXT DATE</button>`;
+ document.getElementById("today").innerHTML=html;
+ updateStats();
+}
+function timetable(p){
+ let rows=[["06:00","Physics lecture + notes","Physics"],["08:30","Chemistry lecture + calculations","Chemistry"],["12:00","Botany lecture + NCERT","Botany"],["16:00","Zoology lecture + NCERT","Zoology"],["19:00","Questions + PYQ","Mixed"],["21:30","Revision + Error Book","Revision"]];
+ return `<table class="table"><tr><th>Time</th><th>Task</th><th>Subject</th></tr>${rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}</table>`;
+}
+function toggleLecture(sub,ch,n,on){
+ let k=lectureKey(sub,ch,n);
+ if(on){
+  state.completed[k]=true;
+  state.backlog=state.backlog.filter(x=>lectureKey(x.subject,x.chapter,x.lecture)!==k);
+  [3,7,21,45,75].forEach(days=>{
+   let id=k+"|"+days;
+   if(!state.revisions.some(r=>r.id===id))state.revisions.push({id,subject:sub,chapter:ch,lecture:n,due:addDays(state.date,days),done:false,type:"Quick Recall"});
+  });
+ }else delete state.completed[k];
+ save();renderToday();
+}
+function setNCERT(ch,key,val){state.ncert[ch]=state.ncert[ch]||{};state.ncert[ch][key]=val;save();renderToday()}
+function finishDay(){
+ let plan=dailyPlan(state.date),unfinished=[];
+ Object.values(plan).flat().forEach(x=>{if(!state.completed[lectureKey(x.subject,x.chapter,x.lecture)])unfinished.push(x)});
+ if(unfinished.length){
+   unfinished.forEach(x=>{if(!state.backlog.some(b=>lectureKey(b.subject,b.chapter,b.lecture)===lectureKey(x.subject,x.chapter,x.lecture)))state.backlog.push(x)});
+   if(!confirm(`${unfinished.length} unfinished lectures will become backlog and be intelligently carried forward. Continue?`))return;
+ }
+ state.date=addDays(state.date,1); if(state.date>END)state.date=END;save();renderAll();showView("today");
+}
+function whatNow(){
+ let overdue=state.revisions.filter(r=>!r.done&&r.due<=state.date);
+ let plan=dailyPlan(state.date),first=Object.values(plan).flat().find(x=>!state.completed[lectureKey(x.subject,x.chapter,x.lecture)]);
+ let msg=overdue.length?`🔄 Revision due: ${overdue[0].chapter} — Lecture ${overdue[0].lecture}`:first?`🎯 Complete ${first.subject} — ${first.chapter} L${first.lecture}`:"🏆 Daily lectures complete. Do questions, NCERT or revision.";
+ document.getElementById("nowResult").innerHTML="<b>"+msg+"</b>";
+}
+
+/* ---------- ALL DAYS ---------- */
+function renderDays(){
+ let html=`<div class="hero"><h2>📅 ALL DAYS</h2><p>31 August 2026 → 30 December 2026</p></div><div class="card">`;
+ for(let d=START;d<=END;d=addDays(d,1)){
+   let p=dailyPlan(d),count=Object.values(p).flat().length;
+   html+=`<div class="dayrow"><div><b>${fmtDate(d)}</b><small class="muted" style="display:block">${count} planned lectures • Revision adapts dynamically</small></div><button class="action" onclick="state.date='${d}';save();renderAll();showView('today')">Open</button></div>`;
+ }
+ document.getElementById("days").innerHTML=html+"</div>";
+}
+function renderCalendar(){
+ let html=`<div class="hero"><h2>📆 CALENDAR</h2><p>Study completion overview</p></div><div class="card grid3">`;
+ for(let d=START;d<=END;d=addDays(d,1)){
+   let p=dailyPlan(d),a=Object.values(p).flat(),c=a.filter(x=>state.completed[lectureKey(x.subject,x.chapter,x.lecture)]).length;
+   html+=`<button class="action" onclick="state.date='${d}';save();renderAll();showView('today')"><b>${new Date(d+"T12").getDate()}</b><br><small>${d.slice(5,7)}</small><br>${c===a.length&&a.length?"✓":c?"◐":"○"}</button>`;
+ }document.getElementById("calendar").innerHTML=html+"</div>";
+}
+
+/* ---------- SYLLABUS ---------- */
+function renderSyllabus(){
+ let html=`<div class="hero"><h2>📚 WHOLE SYLLABUS</h2><p>Search, filter and open complete chapter mastery pages.</p></div>
+ <div class="card"><input placeholder="Search chapter..." oninput="filterSyllabus(this.value)" id="searchCh"><div id="syllabusList"></div></div>`;
+ document.getElementById("syllabus").innerHTML=html;filterSyllabus("");
+}
+function filterSyllabus(q){
+ q=(q||"").toLowerCase();let list=document.getElementById("syllabusList");if(!list)return;
+ list.innerHTML=SYLLABUS.filter(x=>x[2].toLowerCase().includes(q)).map(x=>{
+ let [sub,cl,ch,total]=x,done=0;for(let n=1;n<=total;n++)if(state.completed[lectureKey(sub,ch,n)])done++;
+ let mastery=chapterMastery(ch),priority=PRIORITY.includes(ch)?"⭐ HIGH WEIGHTAGE":"Normal";
+ return `<div class="card subject ${className(sub)}" onclick="openChapter('${ch.replace(/'/g,"\\'")}')" style="margin:8px 0"><b>${sub==="Physics"?"⚡":sub==="Chemistry"?"🧪":sub==="Botany"?"🌿":"🦁"} ${ch}</b><small class="muted" style="display:block">Class ${cl} • ${done}/${total} lectures • ${priority}</small><div class="progress"><i style="width:${mastery}%"></i></div><small>${mastery}% mastery</small></div>`;
+ }).join("");
+}
+
+/* ---------- CHAPTER EDUCATION ENGINE ---------- */
+function topicsFor(ch,sub){
+ const special={
+ "Electrostatics":["Electric charge","Properties and quantisation of charge","Coulomb's law","Superposition principle","Electric field","Field due to point charge","Electric field lines","Electric dipole","Torque on dipole","Electric flux","Gauss's law","Applications of Gauss's law","Electric potential","Potential difference","Equipotential surfaces","Potential energy","Conductors","Electrostatic shielding"],
+ "Solutions":["Types of solutions","Concentration terms","Mass percentage","Mole fraction","Molarity","Molality","Solubility","Henry's law","Raoult's law","Ideal and non-ideal solutions","Colligative properties","Relative lowering of vapour pressure","Elevation of boiling point","Depression of freezing point","Osmotic pressure"],
+ "Human Reproduction":["Male reproductive system","Female reproductive system","Gametogenesis","Spermatogenesis","Oogenesis","Menstrual cycle","Ovulation","Fertilisation","Cleavage","Blastocyst","Implantation","Placenta","Parturition","Lactation"],
+ "Sexual Reproduction in Flowering Plant":["Flower structure","Microsporogenesis","Megasporogenesis","Male gametophyte","Female gametophyte","Pollination","Double fertilisation","Endosperm","Embryo development","Seed development","Apomixis","Polyembryony"],
+ "Molecular Basis of Inheritance":["DNA structure","RNA structure","DNA packaging","Replication","Transcription","Genetic code","Translation","Gene regulation","Human genome project","DNA fingerprinting"]
+ };
+ if(special[ch])return special[ch];
+ let common=sub==="Physics"?["Definitions and physical quantities","Fundamental principles","Mathematical relationships","Units and dimensions","Graph interpretation","Problem-solving methods","Special cases","Common NEET traps","PYQ patterns"]:
+ sub==="Chemistry"?["Core concepts","Definitions","Trends and relationships","Equations and reactions","Mechanism or calculation method","Exceptions","NCERT facts","Conversions and applications","PYQ patterns"]:
+ ["NCERT terminology","Structural understanding","Process and mechanism","Important diagrams","Comparisons","Key examples","Exceptions","NCERT facts","Assertion-reason traps","PYQ patterns"];
+ return common.map(x=>`${ch}: ${x}`);
+}
+function overviewFor(ch,sub){
+ if(sub==="Physics")return `${ch} develops a connected understanding of physical laws, measurable quantities and mathematical relationships. For NEET, focus on translating a situation into known variables, selecting the governing principle, applying correct units and checking the final result. Connect this chapter with prerequisite mechanics or electromagnetism and practise concept-first numerical reasoning rather than formula memorisation.`;
+ if(sub==="Chemistry")return `${ch} builds conceptual links between microscopic particles, chemical behaviour and quantitative relationships. NEET preparation should combine NCERT facts with equations, trends, exceptions and problem-solving. Understand why each reaction or relation works, then practise recognition of patterns and common traps.`;
+ return `${ch} is an NCERT-centred biological chapter connecting structure, process, terminology and real biological significance. Build understanding line by line, visualise diagrams, compare similar terms and repeatedly retrieve facts from memory. NEET questions frequently test small distinctions, sequences, examples and labelled biological processes.`;
+}
+function formulaFor(ch,sub){
+ const f={
+ "Basic Maths":["Percentage = (part/whole) × 100","Scientific notation: a × 10ⁿ","Quadratic formula: x = [-b ± √(b²−4ac)]/2a"],
+ "Vector":["|A| = √(Ax²+Ay²+Az²)","A·B = AB cosθ","|A×B| = AB sinθ"],
+ "Kinematics":["v=u+at","s=ut+½at²","v²=u²+2as"],
+ "Electrostatics":["F = (1/4πε₀) q₁q₂/r²","E = F/q","V = (1/4πε₀)q/r","Φ = E·A = EA cosθ"],
+ "Capacitor":["C=Q/V","Parallel plate: C=εA/d","U=½CV²"],
+ "Current Electricity":["V=IR","R=ρL/A","P=VI=I²R=V²/R"],
+ "Solutions":["Molarity = moles/litre solution","Molality = moles/kg solvent","π=iCRT","ΔTb=iKbm"],
+ "Electrochemistry":["Ecell=Ecathode−Eanode","ΔG=−nFE","E=E°−(0.0591/n)logQ"],
+ "Chemical Kinetics":["Rate=k[A]^m[B]^n","t½=0.693/k for first order"],
+ "Thermodynamics":["ΔU=q+w","ΔH=ΔU+ΔnRT","ΔG=ΔH−TΔS"],
+ "Human Reproduction":["Menstrual cycle phases: menstrual → follicular → ovulation → luteal","Fertilisation normally occurs near ampullary-isthmic junction"],
+ "Molecular Basis of Inheritance":["A=T and G≡C pairing in double-stranded DNA","Central flow: DNA → RNA → Protein"]
+ };
+ return f[ch]||[`${ch}: revise definitions, equations, units and conditions from chapter concepts.`,sub==="Biology"?"Prioritise NCERT facts, sequences and diagrams.":"Record every equation with variables, SI units and validity conditions."];
+}
+function chapterMastery(ch){
+ let x=chapterInfo(ch);if(!x)return 0;let [sub,,_,total]=x,lec=0;
+ for(let n=1;n<=total;n++)if(state.completed[lectureKey(sub,ch,n)])lec++;
+ let topic=topicsFor(ch,sub),ts=topic.filter(t=>state.topicStatus[ch+"|"+t]==="Strong").length/topic.length*100||0;
+ let nc=state.ncert[ch]?.read?100:0;
+ return Math.round(lec/total*45+topic/100*0+ts*.20+nc*.15+(state.chapterDone[ch]?20:0));
+}
+function openChapter(ch){
+ let x=chapterInfo(ch);if(!x)return;let[sub,cl,,total]=x,topics=topicsFor(ch,sub),mastery=chapterMastery(ch);
+ let html=`<div class="hero"><button class="action" onclick="showView('syllabus')">← Back</button><h2>${ch}</h2><p>${sub} • Class ${cl} • ${PRIORITY.includes(ch)?"⭐ HIGH WEIGHTAGE":"Priority: Standard"}</p><div class="progress"><i style="width:${mastery}%"></i></div><b>${mastery}% Chapter Mastery</b></div>`;
+ html+=section("1. Chapter Overview",`<p>${overviewFor(ch,sub)}</p><p><b>After completion:</b> You should be able to explain the central ideas, recall important facts/formulas, solve standard NEET questions and identify common traps.</p>`);
+ html+=section("2. Why This Chapter Matters",`<p>This chapter is important because it creates conceptual links with other parts of ${sub}. Give extra attention to relationships, NCERT terminology, exceptions and repeatedly tested applications.</p>`);
+ html+=section("3. Complete Topics & Topic Status",topics.map(t=>`<div class="topic"><b>${t}</b><p class="small">What it means: understand the definition and role of this concept. Key idea: connect it with the chapter's central principle. NEET relevance: test conceptual distinctions and applications.</p><select onchange="setTopic('${ch}',${JSON.stringify(t)},this.value)"><option>Not Started</option><option ${state.topicStatus[ch+"|"+t]==="Learning"?"selected":""}>Learning</option><option ${state.topicStatus[ch+"|"+t]==="Strong"?"selected":""}>Strong</option></select></div>`).join(""));
+ html+=section("4. Important Concepts & Formula / Reaction Sheet",formulaFor(ch,sub).map(f=>`<div class="topic">⚡ ${f}</div>`).join(""));
+ html+=section("5. NCERT Focus",`<div class="checkrow"><input type="checkbox" ${state.ncert[ch]?.read?"checked":""} onchange="setNCERT('${ch}','read',this.checked)"><b>NCERT Read</b></div><div class="checkrow"><input type="checkbox"><b>Important Lines Marked</b></div><div class="checkrow"><input type="checkbox"><b>NCERT Questions Completed</b></div><div class="checkrow"><input type="checkbox"><b>NCERT Revised</b></div><p>For Biology, prioritise line-by-line terminology, diagrams, examples and exceptions. For Chemistry, identify exact NCERT statements and reactions. For Physics, use NCERT for conceptual framing and definitions.</p>`);
+ let strategy=sub==="Physics"?"Concept → formula → derivation where relevant → solved examples → numerical practice → PYQ → error analysis":sub==="Chemistry"?"Identify chapter type: Physical = concept → equation → units → calculation; Organic = mechanism → patterns → conversions; Inorganic = NCERT → trends → exceptions → recall":"NCERT line-by-line understanding → diagrams → terminology → active recall → NCERT-based questions → PYQ";
+ html+=section("6. How To Study This Chapter",`<ol><li>${strategy}</li><li>Learn prerequisites before difficult sections.</li><li>Complete lectures actively, not passively.</li><li>Make concise short notes.</li><li>Review formulas/reactions/facts.</li><li>Solve basic questions before PYQs.</li><li>Analyse every wrong answer.</li><li>Repair weak topics.</li><li>Take a chapter test.</li><li>Reattempt wrong questions.</li><li>Perform active recall without notes.</li><li>Schedule spaced revisions.</li></ol>`);
+ html+=section("7. How To Complete This Chapter",completionRoadmap(ch));
+ html+=section("8. Lecture List",Array.from({length:total},(_,i)=>{let n=i+1,k=lectureKey(sub,ch,n);return `<label class="lecture"><input type="checkbox" ${state.completed[k]?"checked":""} onchange="toggleLecture('${sub}',${JSON.stringify(ch)},${n},this.checked)"><span>Lecture ${n} of ${total}</span></label>`}).join(""));
+ html+=section("9. Chapter Short Notes",shortNotes(ch,sub));
+ html+=section("10. Mind Map",mindMap(ch,topics));
+ html+=section("11. Revision Schedule",revisionPanel(ch));
+ html+=section("12. Error Book & Weak Topics",`<button class="action" onclick="openTool('error')">Open Error Book</button> <button class="action" onclick="openTool('weak')">Manage Weak Topics</button>`);
+ html+=section("13. Chapter Test",`<p>Recommended after lectures, NCERT, PYQs and weak-topic repair.</p><button class="primary" onclick="openTool('tests')">Create Test Record</button>`);
+ html+=section("14. Final Completion Checklist",finalChecklist(ch));
+ document.getElementById("chapter").innerHTML=html;showView("chapter");
+}
+function section(title,body){return `<details open><summary>${title}</summary><div style="padding-top:8px">${body}</div></details>`}
+function setTopic(ch,t,v){state.topicStatus[ch+"|"+t]=v;save()}
+function completionRoadmap(ch){return `<ol>${["STEP 1 — Prerequisites","STEP 2 — All Lectures","STEP 3 — All Topics Understood","STEP 4 — NCERT","STEP 5 — Short Notes","STEP 6 — Formula/Reaction Revision","STEP 7 — PYQs","STEP 8 — Practice Questions","STEP 9 — Error Analysis","STEP 10 — Weak Topic Repair","STEP 11 — Active Recall","STEP 12 — Chapter Test","STEP 13 — Wrong Question Reattempt","STEP 14 — Revision Cycle","STEP 15 — Final Mastery Check"].map(x=>`<li>${x}</li>`).join("")}</ol>`}
+function shortNotes(ch,sub){return `<p><b>${ch} — Rapid Revision Notes</b></p><p>${overviewFor(ch,sub)}</p><h4>Core revision points</h4><ul>${topicsFor(ch,sub).slice(0,12).map(t=>`<li><b>${t}:</b> define it clearly, connect it to the main chapter principle and remember its most testable distinction.</li>`).join("")}</ul><h4>NEET traps</h4><p>Do not confuse similar terms, ignore units, memorise a formula without conditions, or skip exact NCERT exceptions. Use active recall and wrong-question analysis.</p><h4>Last-minute checklist</h4><p>Definitions ✓ Formula/reactions ✓ diagrams where relevant ✓ exceptions ✓ PYQs ✓ common mistakes ✓ spaced revision.</p>`}
+function mindMap(ch,topics){return `<div class="card"><b>${ch}</b> ↓ ${topics.slice(0,8).map(t=>`<details><summary>${t}</summary>Key idea → important fact/formula → question type → common mistake → revision point</details>`).join("")}</div>`}
+function revisionPanel(ch){let r=state.revisions.filter(x=>x.chapter===ch);return r.length?r.map(x=>`<div class="dayrow"><span>${fmtDate(x.due)} • L${x.lecture} • ${x.type}</span><button class="action" onclick="completeRevision('${x.id}')">${x.done?"✓ Done":"Mark Done"}</button></div>`).join(""):"Complete lectures to automatically create +3, +7, +21, +45 and +75 day revisions."}
+function completeRevision(id){let r=state.revisions.find(x=>x.id===id);if(r)r.done=true;save();renderAll()}
+function finalChecklist(ch){let items=["Lectures complete","Topics complete","NCERT complete","Short notes complete","Formula/reaction sheet complete","PYQs complete","Practice questions complete","Errors reviewed","Weak topics repaired","Active recall completed","Chapter test completed","Wrong questions reattempted","Revision completed"];return items.map((x,i)=>`<div class="checkrow"><input type="checkbox"><span>${x}</span></div>`).join("")+`<button class="primary wide" onclick="markChapter('${ch}')">🏆 MARK CHAPTER COMPLETED</button>`}
+function markChapter(ch){if(confirm("Mark chapter completed? All its lectures will be completed and future planning will skip it.")){let x=chapterInfo(ch);for(let n=1;n<=x[3];n++)state.completed[lectureKey(x[0],ch,n)]=true;state.chapterDone[ch]=true;save();renderAll();openChapter(ch)}}
+
+/* ---------- PROGRESS ---------- */
+function renderProgress(){
+ let total=SYLLABUS.reduce((a,x)=>a+x[3],0),done=Object.keys(state.completed).length;
+ let html=`<div class="hero"><h2>📊 PROGRESS & ANALYTICS</h2><p>Real data from completed study records.</p></div><div class="card"><div class="big">${Math.round(done/total*100)}%</div><p>Syllabus • ${done}/${total} lectures</p><div class="progress"><i style="width:${done/total*100}%"></i></div></div>`;
+ ["Physics","Chemistry","Botany","Zoology"].forEach(sub=>{let a=SYLLABUS.filter(x=>x[0]===sub),t=a.reduce((s,x)=>s+x[3],0),d=a.reduce((s,x)=>s+Array.from({length:x[3]},(_,i)=>state.completed[lectureKey(sub,x[2],i+1)]?1:0).filter(Boolean).length,0);html+=`<div class="card"><b>${sub}</b><div class="progress"><i style="width:${t?d/t*100:0}%"></i></div>${d}/${t} lectures</div>`});
+ html+=`<div class="card"><h3>Analytics</h3><p>Questions accuracy: ${questionAccuracy()}%</p><p>Study sessions: ${state.sessions.length}</p><p>Revisions due: ${state.revisions.filter(x=>!x.done&&x.due<=state.date).length}</p><p>Completed chapters: ${Object.keys(state.chapterDone).length}</p></div>`;
+ document.getElementById("progress").innerHTML=html;
+}
+function questionAccuracy(){let q=Object.values(state.questions),a=q.reduce((s,x)=>s+safeNum(x.attempted),0),c=q.reduce((s,x)=>s+safeNum(x.correct),0);return a?Math.round(c/a*100):0}
+function updateStats(){let total=SYLLABUS.reduce((a,x)=>a+x[3],0),done=Object.keys(state.completed).length,p=dailyPlan(state.date),a=Object.values(p).flat(),c=a.filter(x=>state.completed[lectureKey(x.subject,x.chapter,x.lecture)]).length;document.getElementById("dateHead").innerHTML=`${fmtDate(state.date)}<small>Planner Date</small>`;document.getElementById("todayPct").textContent=a.length?Math.round(c/a.length*100)+"%":"100%";document.getElementById("syllabusStat").textContent=Math.round(done/total*100)+"%";document.getElementById("accuracyStat").textContent=questionAccuracy()+"%";document.getElementById("hoursStat").textContent=Math.round(totalHours()/3600)/10+"h"}
+function totalHours(){return state.sessions.reduce((a,x)=>a+safeNum(x.duration),0)}
+
+/* ---------- TOOLS ---------- */
+function toggleMenu(){document.getElementById("menu").classList.toggle("show")}
+function openTool(name){toggleMenu();let t=document.getElementById("toolview");let html="";
+ const tools={
+ weekly:`<h2>📈 Weekly Targets</h2>${targetForm("Weekly",7)}`,
+ monthly:`<h2>🗓 Monthly Targets</h2>${targetForm("Monthly",30)}`,
+ timer:timerHTML(),
+ revision:revisionHTML(),
+ questions:questionsHTML(),
+ ncert:ncertHTML(),
+ notes:notesHTML(),
+ formula:formulaHTML(),
+ mindmaps:mindmapsHTML(),
+ maths:mathsHTML(),
+ units:unitsHTML(),
+ error:errorHTML(),
+ weak:weakHTML(),
+ tests:testsHTML(),
+ resources:resourcesHTML(),
+ focus:focusHTML(),
+ janmay:janMayHTML(),
+ completed:completedHTML(),
+ settings:settingsHTML()
+ };
+ t.innerHTML=`<div class="hero"><h2>${name.toUpperCase()}</h2><p>NEET 2027 study tool</p></div><div class="card">${tools[name]||"Tool ready."}</div>`;
+ showView("toolview");
+}
+function targetForm(period){return `<p>Set measurable targets.</p><input placeholder="Lectures target" type="number"><input placeholder="Questions target" type="number"><input placeholder="Study hours target" type="number"><input placeholder="NCERT target" type="number"><button class="primary wide" onclick="alert('Targets saved for this session.')">Save ${period} Targets</button><h3>Progress</h3><div class="progress"><i style="width:0%"></i></div>`}
+function timerHTML(){return `<h2>⏱ Study Timer</h2><div class="big center" id="timerDisplay">00:00:00</div><select id="timerSubject"><option>Physics</option><option>Chemistry</option><option>Botany</option><option>Zoology</option><option>Revision</option></select><div class="grid2"><button class="primary" onclick="startTimer()">Start / Resume</button><button class="action" onclick="pauseTimer()">Pause</button><button class="danger" onclick="stopTimer()">Stop & Record</button><button class="action" onclick="pomodoro(25)">25/5 Pomodoro</button></div><p class="muted">Break time is not recorded as study time.</p>`}
+let timerTick;
+function startTimer(){if(!state.timer)state.timer={start:Date.now(),elapsed:0,subject:document.getElementById("timerSubject")?.value||"Study"};else if(state.timer.pausedAt){state.timer.start=Date.now();delete state.timer.pausedAt}save();clearInterval(timerTick);timerTick=setInterval(updateTimer,500);updateTimer()}
+function updateTimer(){if(!state.timer)return;let sec=state.timer.elapsed+(Date.now()-state.timer.start)/1000;let h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=Math.floor(sec%60);let e=document.getElementById("timerDisplay");if(e)e.textContent=[h,m,s].map(x=>String(x).padStart(2,"0")).join(":")}
+function pauseTimer(){if(!state.timer)return;state.timer.elapsed+=(Date.now()-state.timer.start)/1000;state.timer.pausedAt=Date.now();save();clearInterval(timerTick)}
+function stopTimer(){if(!state.timer)return;let dur=state.timer.elapsed+(state.timer.pausedAt?0:(Date.now()-state.timer.start)/1000);if(dur>5)state.sessions.push({id:uid(),date:state.date,duration:dur,subject:state.timer.subject});state.timer=null;save();clearInterval(timerTick);openTool("timer");renderAll()}
+function pomodoro(min){startTimer();alert(`${min} minute study session started. Pause the timer before your break.`)}
+function revisionHTML(){let a=state.revisions.filter(x=>!x.done).sort((x,y)=>x.due.localeCompare(y.due));return `<h2>🔄 Revision Queue</h2>${a.length?a.map(x=>`<div class="dayrow"><span><b>${x.chapter}</b><br><small>L${x.lecture} • ${fmtDate(x.due)} • ${x.type}</small></span><button class="primary" onclick="completeRevision('${x.id}');openTool('revision')">Done</button></div>`).join(""):"No pending revision yet. Completing lectures creates spaced revision automatically."}`}
+function questionsHTML(){let plan=dailyPlan(state.date),chs=[...new Set(Object.values(plan).flat().map(x=>x.chapter))];return `<h2>📝 Today's Question Targets</h2><p>Questions automatically connect to today's active chapters.</p>${chs.map(ch=>`<div class="card"><b>${ch}</b><input id="qa_${ch}" type="number" placeholder="Attempted"><input id="qc_${ch}" type="number" placeholder="Correct"><button class="primary" onclick="saveQuestions('${ch}')">Save</button></div>`).join("")}<p>Default: Physics 25/day • Chemistry 30/day • Biology 60/day, adjustable by actual workload.</p>`}
+function saveQuestions(ch){let a=document.getElementById("qa_"+ch),c=document.getElementById("qc_"+ch);state.questions[ch]={attempted:safeNum(a.value),correct:safeNum(c.value)};save();alert("Question progress saved.");renderAll()}
+function ncertHTML(){return `<h2>📖 NCERT Tracker</h2>${SYLLABUS.map(x=>{let ch=x[2],n=state.ncert[ch]||{};return `<div class="card"><b>${ch}</b>${["Read","Important Lines","Questions","Revised","PYQs"].map((z,i)=>`<div class="checkrow"><input type="checkbox" ${i===0&&n.read?"checked":""} onchange="if(${i}===0)setNCERT('${ch}','read',this.checked)">${z}</div>`).join("")}</div>`}).join("")}`}
+function notesHTML(){return `<h2>📝 Short Notes</h2><input id="noteTitle" placeholder="Title"><textarea id="noteContent" placeholder="Write your editable note..."></textarea><button class="primary wide" onclick="saveNote()">Save Note</button>${Object.entries(state.notes).map(([id,n])=>`<details><summary>${n.title}</summary><p>${n.content}</p><button class="danger" onclick="deleteNote('${id}')">Delete</button></details>`).join("")}`}
+function saveNote(){let t=document.getElementById("noteTitle").value,c=document.getElementById("noteContent").value;if(!t)return;state.notes[uid()]={title:t,content:c};save();openTool("notes")}
+function deleteNote(id){delete state.notes[id];save();openTool("notes")}
+function formulaHTML(){let all=["F=ma — Newton's second law","v=u+at — uniformly accelerated motion","s=ut+½at²","V=IR — Ohm's law","P=VI=I²R","E=mc²","PV=nRT","ΔG=ΔH−TΔS","pH=−log[H⁺]","Nernst: E=E°−(0.0591/n)logQ","Molarity=moles/litre","π=iCRT"];return `<h2>⚡ Formula & Reaction Bank</h2><input placeholder="Search formulas..." oninput="this.nextElementSibling.innerHTML=[...document.querySelectorAll('.formulaItem')].filter(x=>x.textContent.toLowerCase().includes(this.value.toLowerCase())).map(x=>x.outerHTML).join('')"><div>${all.map(x=>`<div class="topic formulaItem">${x}</div>`).join("")}</div><h3>Add Formula</h3><textarea id="newFormula" placeholder="Formula • meaning • variables • units • conditions • common mistake"></textarea><button class="primary" onclick="addFormula()">Save Formula</button>`}
+function addFormula(){let x=document.getElementById("newFormula").value;if(x){state.notes[uid()]={title:"Formula",content:x};save();alert("Formula saved in editable notes.")}}
+function mindmapsHTML(){return `<h2>🧠 Mind Maps & Mnemonics</h2><p>Select any chapter from Whole Syllabus to see its chapter mind map.</p><h3>Quick Recall</h3><p>Prompt → hide answer → recall → show meaning → mark remembered or revise again.</p><textarea id="mnemonic" placeholder="Mnemonic title and memory trick"></textarea><button class="primary" onclick="saveMnemonic()">Save Mnemonic</button>`}
+function saveMnemonic(){let x=document.getElementById("mnemonic").value;if(x){state.notes[uid()]={title:"Mnemonic",content:x};save();alert("Mnemonic saved.")}}
+function mathsHTML(){return `<h2>🧮 BASIC MATHS & MECHANICAL NUMERICAL SOLVING</h2><details open><summary>Complete numerical workflow</summary><p>QUESTION → Extract DATA → Write UNITS → Identify UNKNOWN → Choose FORMULA → REARRANGE → SUBSTITUTE → CALCULATE → CHECK UNIT → CHECK SIGN → CHECK MAGNITUDE → FINAL ANSWER.</p></details><details><summary>Sign rules</summary><p>+ × + = +<br>+ × − = −<br>− × + = −<br>− × − = +<br><br>a − (−b) = a + b. A negative outside a bracket changes every sign inside: −(a+b)=−a−b and −(a−b)=−a+b.</p></details><details><summary>Formula rearranger</summary><p>v=u+at<br>u=v−at<br>a=(v−u)/t<br>t=(v−u)/a</p></details><details><summary>Essential maths</summary><p>Number system • fractions • decimals • percentages • ratio • proportion • algebra • identities • equations • powers • roots • logarithms • scientific notation • significant figures • coordinate geometry • slope • differentiation • integration • trigonometry • vectors • errors.</p></details><input id="signInput" placeholder="Example: 5 - (-3) + (-2)"><button class="primary" onclick="signCheck()">Check Expression</button><p id="signResult"></p>`}
+function signCheck(){let x=document.getElementById("signInput").value;try{if(!/^[0-9+\-*/().\s]+$/.test(x))throw 0;document.getElementById("signResult").innerHTML=`<b>${x}</b><br>↓ simplify brackets and double negatives<br>↓ calculate using BODMAS<br><b>Answer: ${Function("return ("+x+")")()}</b>`}catch(e){document.getElementById("signResult").textContent="Enter a valid arithmetic expression."}}
+function unitsHTML(){return `<h2>📐 UNIT CONVERTER & PHYSICS QUANTITIES</h2><input id="unitValue" type="number" placeholder="Value"><select id="unitType"><option value="cm-m">cm → m</option><option value="km-m">km → m</option><option value="L-mL">L → mL</option><option value="eV-J">eV → J</option><option value="nm-m">nm → m</option><option value="atm-Pa">atm → Pa</option><option value="cal-J">cal → J</option></select><button class="primary" onclick="convertUnit()">Convert</button><p id="unitResult"></p><details><summary>SI quantities</summary><p>Length m • Mass kg • Time s • Current A • Temperature K • Amount mol • Luminous intensity cd. Derived: Force N, Energy J, Power W, Pressure Pa, Charge C, Potential V, Resistance Ω, Frequency Hz.</p></details><details><summary>Prefixes</summary><p>G=10⁹, M=10⁶, k=10³, m=10⁻³, μ=10⁻⁶, n=10⁻⁹, p=10⁻¹².</p></details><details><summary>Constants</summary><p>c≈3×10⁸ m/s • h≈6.626×10⁻³⁴ Js • e≈1.602×10⁻¹⁹ C • G≈6.674×10⁻¹¹ • Nₐ≈6.022×10²³ mol⁻¹ • R≈8.314 J mol⁻¹K⁻¹ • g≈9.8 m/s².</p></details>`}
+function convertUnit(){let v=safeNum(document.getElementById("unitValue").value),t=document.getElementById("unitType").value,f={"cm-m":.01,"km-m":1000,"L-mL":1000,"eV-J":1.602176634e-19,"nm-m":1e-9,"atm-Pa":101325,"cal-J":4.184}[t];document.getElementById("unitResult").innerHTML=`<b>${v*f}</b>`}
+function errorHTML(){return `<h2>❌ ERROR BOOK</h2><input id="errChapter" placeholder="Chapter"><textarea id="errText" placeholder="Question / My mistake / Correct concept / How to avoid"></textarea><select id="errPriority"><option>High</option><option>Medium</option><option>Low</option></select><button class="primary wide" onclick="saveError()">Save Error</button>${state.errors.map(e=>`<div class="card"><b>${e.chapter}</b><p>${e.text}</p><span class="tag">${e.priority}</span><button class="action" onclick="fixError('${e.id}')">Mark Fixed</button></div>`).join("")}`}
+function saveError(){let ch=document.getElementById("errChapter").value,tx=document.getElementById("errText").value;if(ch&&tx){state.errors.push({id:uid(),chapter:ch,text:tx,priority:document.getElementById("errPriority").value,status:"Unresolved"});save();openTool("error")}}
+function fixError(id){let e=state.errors.find(x=>x.id===id);if(e)e.status="Fixed";save();openTool("error")}
+function weakHTML(){let weak=[];Object.entries(state.questions).forEach(([ch,q])=>{if(q.attempted&&q.correct/q.attempted<.6)weak.push(ch)});return `<h2>⚠️ Weak / 🟢 Strong Topics</h2><p>Automatic recommendation uses low accuracy and question performance.</p>${weak.length?weak.map(x=>`<div class="card">⚠️ <b>${x}</b> — needs repair, revision and targeted practice.</div>`).join(""):"No automatically detected weak chapters yet. Add question results to activate analysis."}<h3>Strong strategy</h3><p>Strong topics still receive spaced revision, but lower priority than weak topics.</p>`}
+function testsHTML(){return `<h2>🧪 TEST SYSTEM</h2><select><option>Chapter Test</option><option>Subject Test</option><option>Class 11 Test</option><option>Class 12 Test</option><option>Mixed Test</option><option>Full Syllabus Test</option><option>NEET Mock</option></select><input placeholder="Correct" type="number"><input placeholder="Wrong" type="number"><input placeholder="Skipped" type="number"><input placeholder="Time (minutes)" type="number"><button class="primary wide" onclick="alert('Test record can now be analysed through Error Book and Weak Topics.')">Save Test</button>`}
+function resourcesHTML(){return `<h2>📁 Resources & Bookmarks</h2><p>Add NCERT, notes, PYQ, module, teacher material, links or text resources.</p><input placeholder="Resource title"><input placeholder="URL / description"><select><option>NCERT</option><option>Notes</option><option>PYQ</option><option>NCERT Questions</option><option>Practice / Module</option><option>Teacher Material</option><option>Other</option></select><p class="muted">PDF upload can be stored as a browser file reference, but plain offline HTML cannot reliably convert arbitrary PDFs into high-quality MCQs without a PDF parser/backend.</p>`}
+function focusHTML(){return `<h2>🚫 WEBSITE FOCUS MODE</h2><p class="big center">FOCUS ON ONE TASK</p><button class="primary wide" onclick="document.documentElement.requestFullscreen?.();startTimer()">Start Focus Session</button><button class="action wide" onclick="pauseTimer()">Pause</button><button class="danger wide" onclick="document.exitFullscreen?.()">Exit Focus Mode</button><p class="muted">Website Focus Mode active. True Android app blocking requires native Android system integration and permissions.</p>`}
+function janMayHTML(){return `<h2>🎓 JANUARY–MAY PLAN</h2>${["January — Board revision, NCERT revision, chapter revision, formulas, derivations, writing practice.","February — Board preparation, PYQs, sample papers and timed papers.","March — Board exams and controlled transition toward NEET.","April — Intensive NEET revision, NCERT, PYQs, full syllabus tests, weak topics and Error Book.","May — Final revision, full mocks, rapid NCERT, important formulas, reactions and Biology NCERT."].map(x=>`<div class="card">${x}</div>`).join("")}`}
+function completedHTML(){let a=Object.keys(state.chapterDone);return `<h2>✅ Completed Chapters</h2>${a.length?a.map(ch=>`<div class="card"><b>${ch}</b><button class="action" onclick="delete state.chapterDone['${ch}'];save();openTool('completed')">Undo Completion</button></div>`).join(""):"No chapter manually marked complete yet."}`}
+function settingsHTML(){return `<h2>⚙️ Settings</h2><label>Daily Study Hours<input id="hoursSetting" type="number" value="${state.settings.hours}"></label><p>Daily lecture target is fixed at 12: Physics 3 • Chemistry 3 • Botany 3 • Zoology 3.</p><button class="primary wide" onclick="state.settings.hours=safeNum(document.getElementById('hoursSetting').value)||10;save();alert('Settings saved.')">Save Settings</button><hr><button class="danger wide" onclick="if(confirm('Reset all planner progress? This cannot be undone.')){state=defaultState();save();renderAll();showView('today')}">Reset All Data</button>`}
+
+/* ---------- NAVIGATION ---------- */
+function showView(id,btn){
+ document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+ let v=document.getElementById(id);if(v)v.classList.add("active");
+ document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));if(btn)btn.classList.add("active");
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function renderAll(){renderToday();renderDays();renderCalendar();renderSyllabus();renderProgress();if(state.timer&&!state.timer.pausedAt)startTimer()}
+load();renderAll();
+</script>
+</body>
+</html>

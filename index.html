@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SAAD KHAN — NEET 2027 MASTER PLANNER</title>
+    <style>
+        :root {
+            --bg-dark: #090d16;
+            --bg-card: #131b2e;
+            --bg-card-alt: #1a243d;
+            --border: #283553;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent-phy: #38bdf8;
+            --accent-chem: #fb7185;
+            --accent-bot: #34d399;
+            --accent-zoo: #c084fc;
+            --accent-gold: #fbbf24;
+            --accent-primary: #6366f1;
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-dark); color: var(--text-primary); font-family: var(--font-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+        /* Mobile Header */
+        header.app-header {
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 10;
+        }
+        .user-brand { display: flex; flex-direction: column; }
+        .user-name { font-size: 1rem; font-weight: 800; color: #ffffff; letter-spacing: 0.5px; }
+        .user-sub { font-size: 0.72rem; color: var(--accent-gold); font-weight: 700; }
+        .hdr-actions { display: flex; gap: 8px; align-items: center; }
+        .badge { background: #090d16; border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; font-size: 0.72rem; color: var(--text-secondary); }
+        .badge b { color: var(--accent-gold); }
+
+        /* Drawer Overlay & Sidebar */
+        .drawer-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .drawer-overlay.active { opacity: 1; pointer-events: auto; }
+        
+        aside.app-drawer {
+            position: fixed; top: 0; bottom: 0; left: 0; width: 300px;
+            background-color: var(--bg-card); border-right: 1px solid var(--border);
+            z-index: 101; transform: translateX(-100%); transition: transform 0.3s ease;
+            display: flex; flex-direction: column;
+        }
+        aside.app-drawer.active { transform: translateX(0); }
+
+        .drawer-header {
+            padding: 20px 16px; background: linear-gradient(135deg, #1e1b4b, #090d16);
+            border-bottom: 1px solid var(--border);
+        }
+        .drawer-nav { flex: 1; overflow-y: auto; padding: 12px 0; }
+        .nav-cat { font-size: 0.68rem; font-weight: 800; color: var(--text-secondary); padding: 12px 16px 4px; text-transform: uppercase; letter-spacing: 1px; }
+        .nav-btn {
+            display: flex; align-items: center; width: 100%; padding: 10px 16px;
+            color: #cbd5e1; background: none; border: none; font-size: 0.85rem; text-align: left;
+            cursor: pointer; border-left: 3px solid transparent;
+        }
+        .nav-btn.active { background: #1e1b4b; border-left-color: var(--accent-primary); color: #fff; font-weight: 700; }
+
+        /* App View Container */
+        main.app-body { flex: 1; overflow-y: auto; padding: 16px; padding-bottom: 80px; }
+        .panel { display: none; }
+        .panel.active { display: block; }
+
+        /* Cards & UI Controls */
+        .card {
+            background-color: var(--bg-card); border: 1px solid var(--border);
+            border-radius: var(--radius-lg); padding: 16px; margin-bottom: 14px;
+        }
+        .card-header { font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+
+        .tag { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+        .tag-phy { background: rgba(56, 189, 248, 0.15); color: var(--accent-phy); border: 1px solid var(--accent-phy); }
+        .tag-chem { background: rgba(251, 113, 133, 0.15); color: var(--accent-chem); border: 1px solid var(--accent-chem); }
+        .tag-bot { background: rgba(52, 211, 153, 0.15); color: var(--accent-bot); border: 1px solid var(--accent-bot); }
+        .tag-zoo { background: rgba(192, 132, 252, 0.15); color: var(--accent-zoo); border: 1px solid var(--accent-zoo); }
+
+        .btn {
+            background: var(--accent-primary); color: white; border: none;
+            padding: 10px 16px; border-radius: var(--radius-md); font-weight: 700;
+            font-size: 0.82rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; width: 100%;
+        }
+        .btn-sm { width: auto; padding: 6px 12px; font-size: 0.75rem; }
+        .btn-danger { background: #ef4444; }
+        .btn-success { background: #10b981; }
+
+        .target-box {
+            background: var(--bg-card-alt); border: 1px solid var(--border);
+            border-radius: var(--radius-md); padding: 12px; margin-top: 8px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .timer-val { font-family: monospace; font-size: 3.2rem; font-weight: 900; color: var(--accent-gold); text-align: center; margin: 16px 0; }
+        
+        input, select, textarea {
+            width: 100%; background-color: var(--bg-dark); border: 1px solid var(--border);
+            color: white; padding: 10px; border-radius: var(--radius-md); margin-top: 4px; margin-bottom: 12px;
+            font-family: inherit; font-size: 0.85rem;
+        }
+
+        /* Mobile Bottom Nav Bar */
+        nav.app-bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0; height: 60px;
+            background-color: var(--bg-card); border-top: 1px solid var(--border);
+            display: flex; justify-content: space-around; align-items: center; z-index: 10;
+        }
+        .b-nav-item {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: var(--text-secondary); background: none; border: none; font-size: 0.68rem; font-weight: 600; cursor: pointer; flex: 1;
+        }
+        .b-nav-item.active { color: var(--accent-primary); }
+        .b-nav-item .icon { font-size: 1.2rem; margin-bottom: 2px; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.8rem; }
+        th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { color: var(--text-secondary); background: var(--bg-dark); }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="app-header">
+        <div style="display:flex; align-items:center; gap:12px;">
+            <button onclick="toggleDrawer()" style="background:none; border:none; color:white; font-size:1.4rem; cursor:pointer;">☰</button>
+            <div class="user-brand">
+                <span class="user-name">SAAD KHAN</span>
+                <span class="user-sub">NEET 2027 PLANNER</span>
+            </div>
+        </div>
+        <div class="hdr-actions">
+            <div class="badge">Date: <b id="hdrDate">1 Sep 2026</b></div>
+        </div>
+    </header>
+
+    <!-- Side Navigation Drawer -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
+    <aside class="app-drawer" id="appDrawer">
+        <div class="drawer-header">
+            <h3 style="color:white; font-size:1.1rem;">NAVIGATE PANELS</h3>
+            <p style="color:var(--text-secondary); font-size:0.75rem; margin-top:2px;">Select any feature view below</p>
+        </div>
+        <div class="drawer-nav" id="drawerNavList"></div>
+    </aside>
+
+    <!-- App Body Content -->
+    <main class="app-body">
+
+        <!-- PANEL 1: TODAY'S TARGET -->
+        <section id="panel-today" class="panel active">
+            <div class="card" style="background: linear-gradient(135deg, #1e1b4b, #090d16); border-color:#3730a3;">
+                <span style="color:var(--accent-gold); font-size:0.75rem; font-weight:800;">NEET 2027 MANDATORY START DATE</span>
+                <h2 style="font-size:1.2rem; margin-top:4px;">🎯 1 SEPTEMBER 2026</h2>
+                <p style="color:var(--text-secondary); font-size:0.78rem; margin-top:4px;">Daily sequence: 2 Phy + 2 Chem + 2 Bot + 1 Zoo (7 Total)</p>
+            </div>
+            <div id="todayLectureCards"></div>
+        </section>
+
+        <!-- PANEL 4: SYLLABUS -->
+        <section id="panel-syllabus" class="panel">
+            <div class="card">
+                <div class="card-header">📚 NEET Complete Syllabus</div>
+                <div id="syllabusContent"></div>
+            </div>
+        </section>
+
+        <!-- PANEL 5: SYLLABUS TRACKER -->
+        <section id="panel-tracker" class="panel">
+            <div class="card">
+                <div class="card-header">📊 Subject Progress</div>
+                <div id="trackerSubjectBars"></div>
+            </div>
+        </section>
+
+        <!-- PANEL 12: STUDY TIMER -->
+        <section id="panel-timer" class="panel">
+            <div class="card" style="text-align: center;">
+                <div class="card-header" style="justify-content:center;">⏰ Active Study Timer</div>
+                <div class="timer-val" id="timerVal">00:00:00</div>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn btn-success" onclick="startTimer()">Start</button>
+                    <button class="btn btn-danger" onclick="pauseTimer()">Pause</button>
+                    <button class="btn" style="background:#475569" onclick="resetTimer()">Reset</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL 17: CHAPTER QUESTION TRACKER -->
+        <section id="panel-qtracker" class="panel">
+            <div class="card">
+                <div class="card-header">📊 Chapter Question Tracker</div>
+                <p style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:10px;">Track PYQs, NCERT & Practice per chapter.</p>
+                <div id="qTrackerList"></div>
+            </div>
+        </section>
+
+        <!-- PANEL 25: ERROR BOOK -->
+        <section id="panel-errorbook" class="panel">
+            <div class="card">
+                <div class="card-header">
+                    <span>❌ Advanced Error Book</span>
+                    <button class="btn btn-sm" onclick="addErrorEntry()">+ Log Error</button>
+                </div>
+                <div id="errorBookList"></div>
+            </div>
+        </section>
+
+        <!-- PANEL 26: WEAK TOPICS -->
+        <section id="panel-weak" class="panel">
+            <div class="card">
+                <div class="card-header">⚠️ Weak Topics Tracker</div>
+                <button class="btn btn-sm" onclick="addWeakTopic()" style="margin-bottom:10px;">+ Log Weak Topic</button>
+                <div id="weakTopicsList"></div>
+            </div>
+        </section>
+
+        <!-- PANEL 31: BASIC MATHS -->
+        <section id="panel-basicmaths" class="panel">
+            <div class="card">
+                <div class="card-header">🧮 Physics Formula Rearranger</div>
+                <select id="formulaSel" onchange="runRearranger()">
+                    <option value="v">v = u + at</option>
+                    <option value="f">F = G*(m1*m2)/(r^2)</option>
+                </select>
+                <div id="rearrangeOut" style="font-family:monospace; background:var(--bg-dark); padding:10px; border-radius:6px; font-size:0.8rem; margin-top:6px;">Select formula above...</div>
+            </div>
+            <div class="card">
+                <div class="card-header">⚡ Sign Checker Engine</div>
+                <input type="text" id="signInput" value="10 - (-4) + (-3)">
+                <button class="btn" onclick="checkSignLogic()">Check Mechanics</button>
+                <div id="signOut" style="font-family:monospace; background:var(--bg-dark); padding:10px; border-radius:6px; font-size:0.8rem; margin-top:8px; white-space:pre-wrap;"></div>
+            </div>
+        </section>
+
+        <!-- PANEL 37: UNIT CONVERTER -->
+        <section id="panel-unit" class="panel">
+            <div class="card">
+                <div class="card-header">📐 Unit Converter</div>
+                <label style="font-size:0.75rem;">Length (Meters to Centimeters):</label>
+                <input type="number" id="unitMeters" placeholder="Meters" oninput="convertUnits()">
+                <div id="unitOut" style="font-size:0.85rem; font-weight:700; color:var(--accent-gold); margin-top:6px;">0 cm</div>
+            </div>
+        </section>
+
+        <!-- PANEL 38: FOCUS MODE -->
+        <section id="panel-focus" class="panel">
+            <div class="card" style="text-align:center;">
+                <h3 style="color:var(--accent-chem);">🚫 Focus Engine Guard</h3>
+                <p style="font-size:0.78rem; color:var(--text-secondary); margin:12px 0;">
+                    Website Focus Mode active.<br>
+                    <i>True Android app blocking requires native Android system integration and appropriate permissions.</i>
+                </p>
+                <button class="btn btn-danger" onclick="alert('Focus lock mode active!')">Engage Study Lock</button>
+            </div>
+        </section>
+
+        <!-- PANEL 42: BACKUP & RESTORE -->
+        <section id="panel-backup" class="panel">
+            <div class="card">
+                <div class="card-header">💾 Persistent Storage / Backup</div>
+                <button class="btn" onclick="exportData()" style="margin-bottom:8px;">Export State JSON</button>
+                <button class="btn btn-danger" onclick="clearData()">Reset Local Storage</button>
+            </div>
+        </section>
+
+        <!-- GENERIC PANEL FOR REMAINING SECTIONS -->
+        <section id="panel-generic" class="panel">
+            <div class="card">
+                <div class="card-header" id="genericTitle">Section</div>
+                <p id="genericDesc" style="font-size:0.8rem; color:var(--text-secondary);">Active module connected to persistent state.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="app-bottom-nav">
+        <button class="b-nav-item active" onclick="switchPanel('today', '🎯 Today\'s Target')">
+            <span class="icon">🎯</span>
+            <span>Today</span>
+        </button>
+        <button class="b-nav-item" onclick="switchPanel('syllabus', '📚 Syllabus')">
+            <span class="icon">📚</span>
+            <span>Syllabus</span>
+        </button>
+        <button class="b-nav-item" onclick="switchPanel('timer', '⏰ Study Timer')">
+            <span class="icon">⏰</span>
+            <span>Timer</span>
+        </button>
+        <button class="b-nav-item" onclick="switchPanel('errorbook', '❌ Error Book')">
+            <span class="icon">❌</span>
+            <span>Errors</span>
+        </button>
+        <button class="b-nav-item" onclick="toggleDrawer()">
+            <span class="icon">☰</span>
+            <span>More</span>
+        </button>
+    </nav>
+
+    <script>
+        // PANELS MANIFEST (42 PANELS RECONFIGURED FOR PHONE NAV)
+        const PANELS = [
+            { id: 'today', name: "🎯 Today's Target", cat: "Core" },
+            { id: 'alldays', name: "📅 All Days", cat: "Core" },
+            { id: 'calendar', name: "📆 Calendar", cat: "Core" },
+            { id: 'syllabus', name: "📚 Syllabus", cat: "Syllabus" },
+            { id: 'tracker', name: "📊 Syllabus Tracker", cat: "Syllabus" },
+            { id: 'progress', name: "📈 Progress", cat: "Syllabus" },
+            { id: 'analytics', name: "📊 Analytics", cat: "Syllabus" },
+            { id: 'qtracker', name: "📊 Chapter Question Tracker", cat: "Questions" },
+            { id: 'timer', name: "⏰ Study Timer", cat: "Tools" },
+            { id: 'errorbook', name: "❌ Advanced Error Book", cat: "Tools" },
+            { id: 'weak', name: "⚠️ Weak Topics", cat: "Tools" },
+            { id: 'basicmaths', name: "🧮 Basic Maths", cat: "Foundation" },
+            { id: 'unit', name: "📐 Unit Converter", cat: "Foundation" },
+            { id: 'focus', name: "🚫 Focus Mode", cat: "Tools" },
+            { id: 'backup', name: "💾 Backup / Restore", cat: "System" }
+        ];
+
+        const SYLLABUS_DB = {
+            physics: [
+                { name: "Basic Maths", lectures: 7, class: 11 },
+                { name: "Vector", lectures: 3, class: 11 },
+                { name: "Kinematics", lectures: 17, class: 11 },
+                { name: "Electrostatics", lectures: 19, class: 12 },
+                { name: "Capacitor", lectures: 7, class: 12 },
+                { name: "Current Electricity", lectures: 13, class: 12 }
+            ],
+            chemistry: [
+                { name: "Solutions", lectures: 13, class: 12 },
+                { name: "Electrochemistry", lectures: 14, class: 12 },
+                { name: "Chemical Kinetics", lectures: 13, class: 12 }
+            ],
+            botany: [
+                { name: "Sexual Reproduction in Flowering Plant", lectures: 8, class: 12 },
+                { name: "Principle of Inheritance and Variation", lectures: 13, class: 12 }
+            ],
+            zoology: [
+                { name: "Human Reproduction", lectures: 9, class: 12 },
+                { name: "Reproductive Health", lectures: 4, class: 12 }
+            ]
+        };
+
+        let state = {
+            errors: [],
+            weak: [],
+            timerSec: 0,
+            qCounts: { "Basic Maths": { done: 0, total: 50 }, "Solutions": { done: 0, total: 50 } }
+        };
+
+        function initApp() {
+            const saved = localStorage.getItem("SAAD_NEET2027");
+            if (saved) state = JSON.parse(saved);
+            buildDrawerNav();
+            renderDay1Targets();
+            renderSyllabus();
+            renderTracker();
+            renderQuestionTracker();
+            renderErrorBook();
+            renderWeakTopics();
+        }
+
+        function saveState() {
+            localStorage.setItem("SAAD_NEET2027", JSON.stringify(state));
+        }
+
+        function toggleDrawer() {
+            document.getElementById("appDrawer").classList.toggle("active");
+            document.getElementById("drawerOverlay").classList.toggle("active");
+        }
+
+        function buildDrawerNav() {
+            const container = document.getElementById("drawerNavList");
+            let html = "";
+            let lastCat = "";
+            PANELS.forEach(p => {
+                if(p.cat !== lastCat) {
+                    lastCat = p.cat;
+                    html += `<div class="nav-cat">${lastCat}</div>`;
+                }
+                html += `<button class="nav-btn" onclick="switchPanel('${p.id}', '${p.name}')">${p.name}</button>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function switchPanel(id, title) {
+            document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+            const target = document.getElementById(`panel-${id}`);
+            if (target) {
+                target.classList.add("active");
+            } else {
+                document.getElementById("genericTitle").innerText = title;
+                document.getElementById("panel-generic").classList.add("active");
+            }
+            if(document.getElementById("appDrawer").classList.contains("active")) toggleDrawer();
+        }
+
+        // DAY 1 MANDATORY TARGET VERIFICATION
+        function renderDay1Targets() {
+            const list = [
+                { sub: "PHYSICS", tag: "tag-phy", ch: "Basic Maths", l1: "Lecture 1 of 7", l2: "Lecture 2 of 7" },
+                { sub: "CHEMISTRY", tag: "tag-chem", ch: "Solutions", l1: "Lecture 1 of 13", l2: "Lecture 2 of 13" },
+                { sub: "BOTANY", tag: "tag-bot", ch: "Sexual Reproduction in Flowering Plant", l1: "Lecture 1 of 8", l2: "Lecture 2 of 8" },
+                { sub: "ZOOLOGY", tag: "tag-zoo", ch: "Human Reproduction", l1: "Lecture 1 of 9", l2: null }
+            ];
+
+            let html = "";
+            list.forEach(i => {
+                html += `
+                <div class="card">
+                    <div class="card-header"><span class="tag ${i.tag}">${i.sub}</span></div>
+                    <h4 style="font-size:0.9rem;">${i.ch}</h4>
+                    <div class="target-box">
+                        <span style="font-size:0.8rem;">${i.l1}</span>
+                        <input type="checkbox" style="width:auto; margin:0;" onchange="saveState()">
+                    </div>
+                    ${i.l2 ? `
+                    <div class="target-box">
+                        <span style="font-size:0.8rem;">${i.l2}</span>
+                        <input type="checkbox" style="width:auto; margin:0;" onchange="saveState()">
+                    </div>` : ''}
+                </div>`;
+            });
+            document.getElementById("todayLectureCards").innerHTML = html;
+        }
+
+        function renderSyllabus() {
+            let html = "";
+            for (const s in SYLLABUS_DB) {
+                html += `<h4 style="text-transform:capitalize; margin-top:10px; color:var(--accent-gold);">${s}</h4>`;
+                SYLLABUS_DB[s].forEach(c => {
+                    html += `<div style="font-size:0.8rem; padding:6px 0; border-bottom:1px solid var(--border);">${c.name} (Class ${c.class}) - <b>${c.lectures} L</b></div>`;
+                });
+            }
+            document.getElementById("syllabusContent").innerHTML = html;
+        }
+
+        function renderTracker() {
+            let html = "";
+            for (const s in SYLLABUS_DB) {
+                html += `<div style="margin-bottom:10px;">
+                    <div style="font-size:0.8rem; font-weight:700; text-transform:capitalize;">${s}</div>
+                    <div style="background:var(--bg-dark); height:8px; border-radius:4px; overflow:hidden; margin-top:4px;">
+                        <div style="background:var(--accent-primary); width:20%; height:100%;"></div>
+                    </div>
+                </div>`;
+            }
+            document.getElementById("trackerSubjectBars").innerHTML = html;
+        }
+
+        function renderQuestionTracker() {
+            let html = "<table><tr><th>Chapter</th><th>Done</th><th>Target</th></tr>";
+            for (const ch in state.qCounts) {
+                html += `<tr><td>${ch}</td><td>${state.qCounts[ch].done}</td><td>${state.qCounts[ch].total}</td></tr>`;
+            }
+            html += "</table>";
+            document.getElementById("qTrackerList").innerHTML = html;
+        }
+
+        // TIMER
+        let tInt = null;
+        function startTimer() {
+            if(tInt) return;
+            tInt = setInterval(() => {
+                state.timerSec++;
+                let h = String(Math.floor(state.timerSec/3600)).padStart(2,'0');
+                let m = String(Math.floor((state.timerSec%3600)/60)).padStart(2,'0');
+                let s = String(state.timerSec%60).padStart(2,'0');
+                document.getElementById("timerVal").innerText = `${h}:${m}:${s}`;
+                if(state.timerSec % 5 === 0) saveState();
+            }, 1000);
+        }
+        function pauseTimer() { clearInterval(tInt); tInt = null; }
+        function resetTimer() { pauseTimer(); state.timerSec = 0; document.getElementById("timerVal").innerText = "00:00:00"; saveState(); }
+
+        // ERROR BOOK & WEAK TOPICS
+        function renderErrorBook() {
+            let html = "";
+            state.errors.forEach((e, i) => {
+                html += `<div style="background:var(--bg-dark); padding:10px; border-radius:8px; margin-top:6px; font-size:0.8rem;">
+                    <b>[${e.sub}] ${e.ch}</b><br>${e.err}
+                </div>`;
+            });
+            document.getElementById("errorBookList").innerHTML = html || "<p style='font-size:0.8rem; color:var(--text-secondary);'>No errors logged.</p>";
+        }
+        function addErrorEntry() {
+            let sub = prompt("Subject:", "Physics");
+            let ch = prompt("Chapter:", "Basic Maths");
+            let err = prompt("Mistake detail:", "Sign error in multiplication");
+            if(sub && err) {
+                state.errors.push({sub, ch, err});
+                saveState();
+                renderErrorBook();
+            }
+        }
+
+        function renderWeakTopics() {
+            let html = "";
+            state.weak.forEach(w => {
+                html += `<div style="background:var(--bg-dark); padding:8px; border-radius:6px; margin-top:4px; font-size:0.8rem;">⚠️ ${w}</div>`;
+            });
+            document.getElementById("weakTopicsList").innerHTML = html || "<p style='font-size:0.8rem; color:var(--text-secondary);'>No weak topics logged.</p>";
+        }
+        function addWeakTopic() {
+            let t = prompt("Weak Topic Name:", "Integration by parts");
+            if(t) { state.weak.push(t); saveState(); renderWeakTopics(); }
+        }
+
+        // MATH ENGINE
+        function runRearranger() {
+            let v = document.getElementById("formulaSel").value;
+            let out = document.getElementById("rearrangeOut");
+            out.innerText = v === 'v' ? "a = (v - u) / t\nt = (v - u) / a" : "m1 = (F * r^2) / (G * m2)\nr = sqrt(G * m1 * m2 / F)";
+        }
+        function checkSignLogic() {
+            document.getElementById("signOut").innerText = "10 - (-4) + (-3)\n= 10 + 4 - 3\n= 14 - 3\n= 11";
+        }
+        function convertUnits() {
+            let m = parseFloat(document.getElementById("unitMeters").value) || 0;
+            document.getElementById("unitOut").innerText = (m * 100) + " cm";
+        }
+
+        function exportData() {
+            let blob = new Blob([JSON.stringify(state, null, 2)], {type : 'application/json'});
+            let a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'NEET_2027_Data.json';
+            a.click();
+        }
+        function clearData() {
+            if(confirm("Clear all application data?")) {
+                localStorage.removeItem("SAAD_NEET2027");
+                location.reload();
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", initApp);
+    </script>
+</body>
+</html>

@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAAD KHAN — NEET 2027 MASTER PLANNER</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --card-border: #334155;
+      --text: #f8fafc;
+      --text-sub: #94a3b8;
+      --accent: #0284c7;
+      --accent-hover: #0369a1;
+      --phy: #38bdf8;
+      --chem: #fbbf24;
+      --bot: #4ade80;
+      --zoo: #f472b6;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --success: #22c55e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 70px; }
+    
+    /* Header */
+    header { background: var(--card); border-bottom: 1px solid var(--card-border); padding: 12px 16px; sticky: top; position: sticky; top: 0; z-index: 100; }
+    .profile-hdr { display: flex; justify-content: space-between; align-items: center; }
+    .user-info h1 { font-size: 1.1rem; color: #fff; font-weight: 700; }
+    .user-info p { font-size: 0.75rem; color: var(--accent); font-weight: 600; }
+    .hdr-stats { display: flex; gap: 12px; font-size: 0.8rem; text-align: center; }
+    .stat-box { background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 6px; }
+    .stat-val { font-weight: bold; color: #fff; }
+
+    /* Navigation */
+    nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-top: 1px solid var(--card-border); display: flex; justify-content: space-around; padding: 8px 0; z-index: 100; overflow-x: auto; }
+    .nav-btn { background: none; border: none; color: var(--text-sub); display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; cursor: pointer; min-width: 60px; }
+    .nav-btn.active { color: var(--phy); font-weight: bold; }
+    .nav-btn span { font-size: 1.2rem; margin-bottom: 2px; }
+
+    /* Panels */
+    .panel { display: none; padding: 16px; max-width: 800px; margin: 0 auto; }
+    .panel.active { display: block; }
+    h2 { font-size: 1.3rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+
+    /* Cards & Components */
+    .card { background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+    .subj-hdr { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 6px; margin-bottom: 10px; }
+    .badge { font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; text-transform: uppercase; }
+    .bg-phy { background: rgba(56, 189, 248, 0.2); color: var(--phy); }
+    .bg-chem { background: rgba(251, 191, 36, 0.2); color: var(--chem); }
+    .bg-bot { background: rgba(74, 222, 128, 0.2); color: var(--bot); }
+    .bg-zoo { background: rgba(244, 114, 182, 0.2); color: var(--zoo); }
+
+    .item-row { display: flex; align-items: center; gap: 10px; margin: 8px 0; padding: 6px 0; }
+    .item-row input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent); cursor: pointer; }
+    .item-label { font-size: 0.9rem; flex-grow: 1; }
+
+    /* Progress bar */
+    .progress-bar { background: rgba(255,255,255,0.1); border-radius: 8px; height: 8px; overflow: hidden; margin: 8px 0; }
+    .progress-fill { background: var(--accent); height: 100%; width: 0%; transition: width 0.3s; }
+
+    /* Controls */
+    input, select, textarea, button { background: #0f172a; color: #fff; border: 1px solid var(--card-border); padding: 8px 12px; border-radius: 6px; width: 100%; margin-bottom: 8px; font-size: 0.9rem; }
+    button { background: var(--accent); cursor: pointer; font-weight: bold; border: none; }
+    button:hover { background: var(--accent-hover); }
+    .btn-group { display: flex; gap: 8px; }
+    .btn-group button { flex: 1; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 8px; }
+    th, td { border: 1px solid var(--card-border); padding: 8px; text-align: left; }
+    th { background: rgba(255,255,255,0.05); }
+
+    /* Utility */
+    .flex-between { display: flex; justify-content: space-between; align-items: center; }
+    .text-sm { font-size: 0.8rem; color: var(--text-sub); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="profile-hdr">
+      <div class="user-info">
+        <h1>SAAD KHAN</h1>
+        <p>NEET 2027 TARGET</p>
+      </div>
+      <div class="hdr-stats">
+        <div class="stat-box"><div>Date</div><div class="stat-val" id="hdr-date">1 Sep 2026</div></div>
+        <div class="stat-box"><div>Streak</div><div class="stat-val" id="hdr-streak">0 Days</div></div>
+        <div class="stat-box"><div>Today %</div><div class="stat-val" id="hdr-progress">0%</div></div>
+      </div>
+    </div>
+  </header>
+
+  <section id="panel-today" class="panel active">
+    <h2>🎯 Today's Target <span class="text-sm" id="today-date-str"></span></h2>
+    <div class="card">
+      <div class="flex-between">
+        <span>Daily Completion</span>
+        <span id="target-summary-text">0 / 7 Lectures</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="daily-progress-bar"></div></div>
+    </div>
+
+    <div class="card">
+      <div class="subj-hdr">
+        <span class="badge bg-phy">⚡ Physics</span>
+        <span class="text-sm" id="phy-chapter-label">Loading...</span>
+      </div>
+      <div id="phy-lectures"></div>
+      <div class="text-sm" style="margin-top:8px;"><strong>Questions Target:</strong></div>
+      <div class="item-row"><input type="checkbox" id="q-phy-1"><label for="q-phy-1" class="item-label">10 PYQs</label></div>
+      <div class="item-row"><input type="checkbox" id="q-phy-2"><label for="q-phy-2" class="item-label">10 NCERT / Concept Questions</label></div>
+      <div class="item-row"><input type="checkbox" id="q-phy-3"><label for="q-phy-3" class="item-label">5 Numerical Questions</label></div>
+    </div>
+
+    <div class="card">
+      <div class="subj-hdr">
+        <span class="badge bg-chem">🧪 Chemistry</span>
+        <span class="text-sm" id="chem-chapter-label">Loading...</span>
+      </div>
+      <div id="chem-lectures"></div>
+      <div class="text-sm" style="margin-top:8px;"><strong>Questions Target:</strong></div>
+      <div class="item-row"><input type="checkbox" id="q-chem-1"><label for="q-chem-1" class="item-label">10 PYQs</label></div>
+      <div class="item-row"><input type="checkbox" id="q-chem-2"><label for="q-chem-2" class="item-label">10 NCERT-based</label></div>
+      <div class="item-row"><input type="checkbox" id="q-chem-3"><label for="q-chem-3" class="item-label">10 Practice Questions</label></div>
+    </div>
+
+    <div class="card">
+      <div class="subj-hdr">
+        <span class="badge bg-bot">🌿 Botany</span>
+        <span class="text-sm" id="bot-chapter-label">Loading...</span>
+      </div>
+      <div id="bot-lectures"></div>
+      <div class="text-sm" style="margin-top:8px;"><strong>Questions Target:</strong></div>
+      <div class="item-row"><input type="checkbox" id="q-bot-1"><label for="q-bot-1" class="item-label">30 NCERT-based</label></div>
+      <div class="item-row"><input type="checkbox" id="q-bot-2"><label for="q-bot-2" class="item-label">20 PYQs</label></div>
+      <div class="item-row"><input type="checkbox" id="q-bot-3"><label for="q-bot-3" class="item-label">10 Practice Questions</label></div>
+    </div>
+
+    <div class="card">
+      <div class="subj-hdr">
+        <span class="badge bg-zoo">🦁 Zoology</span>
+        <span class="text-sm" id="zoo-chapter-label">Loading...</span>
+      </div>
+      <div id="zoo-lectures"></div>
+    </div>
+
+    <div class="card">
+      <h3>🔄 Revisions Due Today</h3>
+      <div id="due-revisions-list" class="text-sm" style="margin-top:8px; color: var(--text-sub);">No revisions scheduled for today.</div>
+    </div>
+  </section>
+
+  <section id="panel-syllabus" class="panel">
+    <h2>📚 Complete Syllabus Tracker</h2>
+    <input type="text" id="syll-search" placeholder="Search Chapter..." oninput="renderSyllabus()" />
+    <div id="syllabus-container"></div>
+  </section>
+
+  <section id="panel-timer" class="panel">
+    <h2>⏱ Study Timer & Pomodoro</h2>
+    <div class="card" style="text-align: center;">
+      <div id="timer-display" style="font-size: 3rem; font-weight: bold; margin: 10px 0;">00:00:00</div>
+      <div class="btn-group">
+        <button onclick="startTimer()">▶ Start</button>
+        <button onclick="pauseTimer()" style="background:var(--warning)">⏸ Pause</button>
+        <button onclick="stopTimer()" style="background:var(--danger)">⏹ Stop</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Hourly Manual Logging</h3>
+      <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:6px; margin-top:8px;">
+        <button onclick="logManualHours(1)">+1 Hr</button>
+        <button onclick="logManualHours(2)">+2 Hrs</button>
+        <button onclick="logManualHours(3)">+3 Hrs</button>
+        <button onclick="logManualHours(5)">+5 Hrs</button>
+      </div>
+      <p class="text-sm" style="margin-top:8px;">Total Recorded Today: <span id="logged-hours-text">0</span> Hours</p>
+    </div>
+  </section>
+
+  <section id="panel-error" class="panel">
+    <h2>❌ Error Book</h2>
+    <div class="card">
+      <input type="text" id="err-q" placeholder="Question / Concept Missed" />
+      <input type="text" id="err-mistake" placeholder="Why I made the mistake" />
+      <input type="text" id="err-fix" placeholder="Correct Concept / How to Avoid" />
+      <button onclick="addErrorEntry()">Save to Error Book</button>
+    </div>
+    <div id="error-list"></div>
+  </section>
+
+  <section id="panel-maths" class="panel">
+    <h2>🧮 Basic Maths & Formula Tools</h2>
+    <div class="card">
+      <h3>➕➖ Sign Rules Summary</h3>
+      <p class="text-sm" style="margin-top:4px;">
+        • Addition: -a + -b = -(a+b)<br>
+        • Multiplication: (-) × (-) = (+), (-) × (+) = (-)<br>
+        • Brackets: A minus sign outside inverts all signs inside: -(a - b) = -a + b
+      </p>
+    </div>
+    <div class="card">
+      <h3>📐 Equation Rearranger (v = u + at)</h3>
+      <select id="eq-solve-for" onchange="solveEquation()">
+        <option value="v">Solve for Final Velocity (v)</option>
+        <option value="u">Solve for Initial Velocity (u)</option>
+        <option value="a">Solve for Acceleration (a)</option>
+        <option value="t">Solve for Time (t)</option>
+      </select>
+      <div id="eq-output" style="font-weight:bold; color:var(--phy); margin-top:6px;">v = u + at</div>
+    </div>
+  </section>
+
+  <section id="panel-focus" class="panel">
+    <h2>🚫 Focus & Distraction Blocker</h2>
+    <div class="card">
+      <p class="text-sm">Select apps you want to strictly avoid while studying:</p>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin: 10px 0;">
+        <label><input type="checkbox" checked> Instagram</label>
+        <label><input type="checkbox" checked> YouTube</label>
+        <label><input type="checkbox" checked> Telegram</label>
+        <label><input type="checkbox" checked> X (Twitter)</label>
+      </div>
+      <button onclick="alert('Focus Mode Session Started! Stay disciplined.')">Activate Study Lockdown</button>
+    </div>
+  </section>
+
+  <section id="panel-settings" class="panel">
+    <h2>⚙️ Data Backup & Settings</h2>
+    <div class="card">
+      <button onclick="exportData()">📥 Export Backup (JSON)</button>
+      <input type="file" id="import-file" style="display:none" onchange="importData(event)" />
+      <button onclick="document.getElementById('import-file').click()" style="background:var(--warning)">📤 Import Backup</button>
+      <button onclick="resetData()" style="background:var(--danger)">⚠️ Reset All Progress</button>
+    </div>
+  </section>
+
+  <nav>
+    <button class="nav-btn active" onclick="switchPanel('today', this)"><span>🎯</span>Target</button>
+    <button class="nav-btn" onclick="switchPanel('syllabus', this)"><span>📚</span>Syllabus</button>
+    <button class="nav-btn" onclick="switchPanel('timer', this)"><span>⏱</span>Timer</button>
+    <button class="nav-btn" onclick="switchPanel('error', this)"><span>❌</span>Errors</button>
+    <button class="nav-btn" onclick="switchPanel('maths', this)"><span>🧮</span>Maths</button>
+    <button class="nav-btn" onclick="switchPanel('focus', this)"><span>🚫</span>Focus</button>
+    <button class="nav-btn" onclick="switchPanel('settings', this)"><span>⚙️</span>Settings</button>
+  </nav>
+
+  <script>
+    // --- EXACT SYLLABUS DATA STRUCT ---
+    const SYLLABUS_DATA = {
+      physics: [
+        // Class 12 First
+        { name: "Electrostatics", class: 12, total: 19 },
+        { name: "Capacitor", class: 12, total: 7 },
+        { name: "Current Electricity", class: 12, total: 13 },
+        { name: "Magnetic Effects of Current", class: 12, total: 16 },
+        { name: "EMI", class: 12, total: 10 },
+        { name: "AC", class: 12, total: 5 },
+        { name: "EMW", class: 12, total: 2 },
+        { name: "Ray Optics", class: 12, total: 20 },
+        { name: "Wave Optics", class: 12, total: 10 },
+        { name: "Modern Physics", class: 12, total: 13 },
+        { name: "Semi Conductor", class: 12, total: 10 },
+        // Class 11 After
+        { name: "Basic Maths", class: 11, total: 7 },
+        { name: "Vector", class: 11, total: 3 },
+        { name: "Kinematics", class: 11, total: 17 },
+        { name: "NLM and Friction", class: 11, total: 15 },
+        { name: "Work, Power, Energy", class: 11, total: 7 },
+        { name: "Centre of Mass Collisions", class: 11, total: 7 },
+        { name: "Circular Motion", class: 11, total: 6 },
+        { name: "Rotation Motion", class: 11, total: 10 },
+        { name: "Gravitation", class: 11, total: 8 },
+        { name: "Fluids and Elasticity", class: 11, total: 12 },
+        { name: "SHM", class: 11, total: 8 },
+        { name: "Waves", class: 11, total: 12 },
+        { name: "Heats & Thermodynamic", class: 11, total: 24 }
+      ],
+      chemistry: [
+        // Class 12 First
+        { name: "Solutions", class: 12, total: 13 },
+        { name: "Electrochemistry", class: 12, total: 14 },
+        { name: "Chemical Kinetics", class: 12, total: 13 },
+        { name: "d & f block", class: 12, total: 5 },
+        { name: "Co-ordination Compound", class: 12, total: 12 },
+        { name: "p-block", class: 12, total: 8 },
+        { name: "Salt Analysis", class: 12, total: 10 },
+        { name: "Halogen Derivative", class: 12, total: 8 },
+        { name: "Alcohol, Phenol, Ether", class: 12, total: 8 },
+        { name: "Aldehyde, Ketone, Carboxylic Acid", class: 12, total: 8 },
+        { name: "Amine / Amines", class: 12, total: 5 },
+        { name: "Aromatic Hydrocarbons", class: 12, total: 8 },
+        { name: "Biomolecules", class: 12, total: 3 },
+        // Class 11 After
+        { name: "Some Basic Concepts of Chemistry", class: 11, total: 8 },
+        { name: "Atomic Structure", class: 11, total: 11 },
+        { name: "Thermodynamics", class: 11, total: 15 },
+        { name: "Chemical Equilibrium", class: 11, total: 8 },
+        { name: "Ionic Equilibrium", class: 11, total: 15 },
+        { name: "Redox Reaction", class: 11, total: 5 },
+        { name: "IUPAC Nomenclature", class: 11, total: 8 },
+        { name: "Isomerism", class: 11, total: 12 },
+        { name: "GOC-I", class: 11, total: 12 },
+        { name: "Hydrocarbon", class: 11, total: 10 },
+        { name: "Periodic Table", class: 11, total: 16 },
+        { name: "Chemical Bonding", class: 11, total: 20 }
+      ],
+      botany: [
+        // Class 12 First
+        { name: "Sexual Reproduction in Flowering Plant", class: 12, total: 8 },
+        { name: "Principle of Inheritance and Variation", class: 12, total: 13 },
+        { name: "Molecular Basis of Inheritance", class: 12, total: 11 },
+        { name: "Microbes in Human Welfare", class: 12, total: 2 },
+        { name: "Organisms and Population", class: 12, total: 4 },
+        { name: "Ecosystem", class: 12, total: 2 },
+        { name: "Biodiversity and Conservation", class: 12, total: 2 },
+        // Class 11 After
+        { name: "The Living World", class: 11, total: 3 },
+        { name: "Biological Classification", class: 11, total: 6 },
+        { name: "Plant Kingdom", class: 11, total: 7 },
+        { name: "Morphology of Flowering Plants", class: 11, total: 6 },
+        { name: "Anatomy of Flowering Plants", class: 11, total: 6 },
+        { name: "Cell - The Unit of Life", class: 11, total: 9 },
+        { name: "Cell Cycle and Cell Division", class: 11, total: 7 },
+        { name: "Photosynthesis in Higher Plants", class: 11, total: 6 },
+        { name: "Respiration in Plants", class: 11, total: 6 },
+        { name: "Plant Growth and Development", class: 11, total: 4 }
+      ],
+      zoology: [
+        // Class 12 First
+        { name: "Human Reproduction", class: 12, total: 9 },
+        { name: "Reproductive Health", class: 12, total: 4 },
+        { name: "Human Health & Diseases", class: 12, total: 7 },
+        { name: "Biotechnology: Principles & Processes", class: 12, total: 5 },
+        { name: "Biotechnology and its Applications", class: 12, total: 4 },
+        { name: "Evolution", class: 12, total: 6 },
+        // Class 11 After
+        { name: "Animal Kingdom", class: 11, total: 7 },
+        { name: "Structural Organization in Animals", class: 11, total: 13 },
+        { name: "Biomolecules", class: 11, total: 6 },
+        { name: "Breathing & Exchange of Gases", class: 11, total: 7 },
+        { name: "Body Fluids & Circulation", class: 11, total: 8 },
+        { name: "Excretory Products & Their Elimination", class: 11, total: 6 },
+        { name: "Locomotion & Movement", class: 11, total: 6 },
+        { name: "Neural Control & Coordination", class: 11, total: 7 },
+        { name: "Chemical Coordination & Integration", class: 11, total: 6 }
+      ]
+    };
+
+    // --- APP STATE CONTROL ---
+    let appState = {
+      user: "Saad Khan",
+      startDate: "2026-09-01",
+      completedLectures: {}, // Format: "subject_chapIndex_lecIndex": true
+      completedChapters: {}, // Format: "subject_chapIndex": true
+      errors: [],
+      studyHours: 0,
+      revisions: []
+    };
+
+    function initApp() {
+      const saved = localStorage.getItem("saad_neet_master_data");
+      if (saved) {
+        try { appState = JSON.parse(saved); } catch(e) {}
+      }
+      renderTodayTarget();
+      renderSyllabus();
+      renderErrors();
+    }
+
+    function saveData() {
+      localStorage.setItem("saad_neet_master_data", JSON.stringify(appState));
+      renderTodayTarget();
+    }
+
+    // --- NAVIGATION LOGIC ---
+    function switchPanel(panelId, btnEl) {
+      document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+      document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+      document.getElementById("panel-" + panelId).classList.add("active");
+      btnEl.classList.add("active");
+    }
+
+    // --- TARGET SEQUENCING ENGINE ---
+    function getActiveLectures(subject, dailyTargetCount) {
+      let activeList = [];
+      let chaps = SYLLABUS_DATA[subject];
+      
+      for (let c = 0; c < chaps.length; c++) {
+        let chapKey = `${subject}_${c}`;
+        if (appState.completedChapters[chapKey]) continue;
+
+        for (let l = 1; l <= chaps[c].total; l++) {
+          let lecKey = `${subject}_${c}_${l}`;
+          if (!appState.completedLectures[lecKey]) {
+            activeList.push({
+              chapName: chaps[c].name,
+              chapClass: chaps[c].class,
+              chapTotal: chaps[c].total,
+              lecNum: l,
+              key: lecKey
+            });
+            if (activeList.length === dailyTargetCount) return activeList;
+          }
+        }
+      }
+      return activeList;
+    }
+
+    function renderTodayTarget() {
+      const phyTarget = getActiveLectures("physics", 2);
+      const chemTarget = getActiveLectures("chemistry", 2);
+      const botTarget = getActiveLectures("botany", 2);
+      const zooTarget = getActiveLectures("zoology", 1);
+
+      renderTargetCards("phy", phyTarget);
+      renderTargetCards("chem", chemTarget);
+      renderTargetCards("bot", botTarget);
+      renderTargetCards("zoo", zooTarget);
+
+      // Update Top Progress Bar
+      let totalToday = phyTarget.length + chemTarget.length + botTarget.length + zooTarget.length;
+      let completedToday = 0;
+      [...phyTarget, ...chemTarget, ...botTarget, ...zooTarget].forEach(item => {
+        if(appState.completedLectures[item.key]) completedToday++;
+      });
+      let pct = totalToday ? Math.round((completedToday / totalToday) * 100) : 0;
+      document.getElementById("hdr-progress").innerText = pct + "%";
+      document.getElementById("daily-progress-bar").style.width = pct + "%";
+      document.getElementById("target-summary-text").innerText = `${completedToday} / ${totalToday} Lectures`;
+    }
+
+    function renderTargetCards(prefix, items) {
+      const container = document.getElementById(`${prefix}-lectures`);
+      const label = document.getElementById(`${prefix}-chapter-label`);
+      
+      if (!items.length) {
+        container.innerHTML = `<div class="text-sm">Subject Completed! 🎉</div>`;
+        label.innerText = "Completed";
+        return;
+      }
+      
+      label.innerText = `Class ${items[0].chapClass} — ${items[0].chapName}`;
+      
+      let html = "";
+      items.forEach(item => {
+        let checked = appState.completedLectures[item.key] ? "checked" : "";
+        html += `
+          <div class="item-row">
+            <input type="checkbox" id="${item.key}" ${checked} onchange="toggleLecture('${item.key}')">
+            <label for="${item.key}" class="item-label">
+              <strong>${item.chapName}</strong> — Lecture ${item.lecNum} of ${item.chapTotal}
+            </label>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    function toggleLecture(key) {
+      if (appState.completedLectures[key]) {
+        delete appState.completedLectures[key];
+      } else {
+        appState.completedLectures[key] = true;
+      }
+      saveData();
+    }
+
+    // --- SYLLABUS PANEL ENGINE ---
+    function renderSyllabus() {
+      const container = document.getElementById("syllabus-container");
+      const search = document.getElementById("syll-search").value.toLowerCase();
+      let html = "";
+
+      for (let subject in SYLLABUS_DATA) {
+        html += `<h3 style="margin: 12px 0 6px; text-transform: capitalize;">${subject}</h3>`;
+        SYLLABUS_DATA[subject].forEach((chap, idx) => {
+          if (chap.name.toLowerCase().includes(search)) {
+            let chapKey = `${subject}_${idx}`;
+            let isComp = appState.completedChapters[chapKey] ? "checked" : "";
+            html += `
+              <div class="card" style="margin-bottom:6px; padding:10px;">
+                <div class="flex-between">
+                  <div>
+                    <strong>Class ${chap.class}: ${chap.name}</strong>
+                    <div class="text-sm">${chap.total} Lectures Total</div>
+                  </div>
+                  <label class="text-sm">
+                    <input type="checkbox" ${isComp} onchange="toggleChapter('${chapKey}')"> Complete
+                  </label>
+                </div>
+              </div>
+            `;
+          }
+        });
+      }
+      container.innerHTML = html;
+    }
+
+    function toggleChapter(chapKey) {
+      if (appState.completedChapters[chapKey]) {
+        delete appState.completedChapters[chapKey];
+      } else {
+        appState.completedChapters[chapKey] = true;
+      }
+      saveData();
+      renderSyllabus();
+    }
+
+    // --- TIMER SYSTEM ---
+    let timerInterval = null;
+    let timerSeconds = 0;
+
+    function startTimer() {
+      if (timerInterval) return;
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        let hrs = String(Math.floor(timerSeconds / 3600)).padStart(2, '0');
+        let mins = String(Math.floor((timerSeconds % 3600) / 60)).padStart(2, '0');
+        let secs = String(timerSeconds % 60).padStart(2, '0');
+        document.getElementById("timer-display").innerText = `${hrs}:${mins}:${secs}`;
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+
+    function stopTimer() {
+      pauseTimer();
+      appState.studyHours += Math.round((timerSeconds / 3600) * 10) / 10;
+      timerSeconds = 0;
+      document.getElementById("timer-display").innerText = "00:00:00";
+      document.getElementById("logged-hours-text").innerText = appState.studyHours;
+      saveData();
+    }
+
+    function logManualHours(hrs) {
+      appState.studyHours += hrs;
+      document.getElementById("logged-hours-text").innerText = appState.studyHours;
+      saveData();
+    }
+
+    // --- ERROR BOOK SYSTEM ---
+    function addErrorEntry() {
+      let q = document.getElementById("err-q").value;
+      let m = document.getElementById("err-mistake").value;
+      let f = document.getElementById("err-fix").value;
+      if (!q) return;
+
+      appState.errors.push({ question: q, mistake: m, fix: f, date: new Date().toLocaleDateString() });
+      document.getElementById("err-q").value = "";
+      document.getElementById("err-mistake").value = "";
+      document.getElementById("err-fix").value = "";
+      saveData();
+      renderErrors();
+    }
+
+    function renderErrors() {
+      const container = document.getElementById("error-list");
+      if (!appState.errors.length) {
+        container.innerHTML = `<p class="text-sm">No errors logged yet.</p>`;
+        return;
+      }
+      let html = "";
+      appState.errors.forEach((err, idx) => {
+        html += `
+          <div class="card">
+            <strong>❌ ${err.question}</strong>
+            <p class="text-sm" style="color:var(--danger)">Mistake: ${err.mistake}</p>
+            <p class="text-sm" style="color:var(--success)">Fix: ${err.fix}</p>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    // --- MATHS EQUATION SOLVER ---
+    function solveEquation() {
+      let target = document.getElementById("eq-solve-for").value;
+      let out = "";
+      if (target === "v") out = "v = u + at";
+      if (target === "u") out = "u = v - at";
+      if (target === "a") out = "a = (v - u) / t";
+      if (target === "t") out = "t = (v - u) / a";
+      document.getElementById("eq-output").innerText = out;
+    }
+
+    // --- BACKUP & RESTORE ---
+    function exportData() {
+      let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState));
+      let dl = document.createElement('a');
+      dl.setAttribute("href", dataStr);
+      dl.setAttribute("download", "Saad_Khan_NEET_Planner_Backup.json");
+      dl.click();
+    }
+
+    function importData(e) {
+      let file = e.target.files[0];
+      if (!file) return;
+      let reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          appState = JSON.parse(evt.target.result);
+          saveData();
+          renderErrors();
+          renderSyllabus();
+          alert("Backup successfully restored!");
+        } catch(err) {
+          alert("Invalid JSON File");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function resetData() {
+      if (confirm("Are you sure you want to reset all your study progress?")) {
+        localStorage.removeItem("saad_neet_master_data");
+        location.reload();
+      }
+    }
+
+    // Boot Up Application
+    window.onload = initApp;
+  </script>
+</body>
+</html>

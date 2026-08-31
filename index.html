@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111827">
+<title>Saad Khan • NEET 2027 Daily Goal Planner</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f7fb;color:#111827;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+button,input{font:inherit}.app{display:flex;min-height:100vh}.side{width:250px;position:fixed;inset:0 auto 0 0;background:#111827;color:#fff;padding:18px 12px;z-index:5}
+.profile{padding:8px 10px 18px;border-bottom:1px solid #263244;margin-bottom:12px}.avatar{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#6366f1,#a855f7);font-weight:1000;font-size:20px;margin-bottom:9px}.name{font-size:20px;font-weight:950}.tag{font-size:10px;color:#a5b4fc;font-weight:900}
+.nav button{width:100%;border:0;background:transparent;color:#cbd5e1;text-align:left;padding:11px;border-radius:10px;margin:2px 0;cursor:pointer;font-weight:850}.nav button.active,.nav button:hover{background:#293548;color:white}
+.sidefoot{position:absolute;bottom:15px;left:15px;right:15px;color:#94a3b8;font-size:10px;line-height:1.6}
+main{margin-left:250px;padding:22px;width:calc(100% - 250px);max-width:1450px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:12px}.eyebrow{font-size:10px;color:#667085;font-weight:950;letter-spacing:1px}h1{margin:3px 0;font-size:28px}.date{font-size:12px;color:#667085}
+.page{display:none}.page.active{display:block}.hero{background:linear-gradient(135deg,#312e81,#6366f1);color:#fff;padding:22px;border-radius:20px;box-shadow:0 10px 30px #11182718;margin-bottom:16px}.hero h2{margin:3px 0 4px;font-size:26px}.hero p{margin:0;color:#e0e7ff}.herorow{display:flex;justify-content:space-between;gap:15px}.heroNum{font-size:34px;font-weight:1000;text-align:right}.track{height:10px;background:#ffffff2b;border-radius:99px;overflow:hidden;margin-top:16px}.track i{display:block;height:100%;background:#fff;border-radius:99px;width:0}
+.pills{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}.pill{font-size:11px;font-weight:850;border:1px solid #ffffff35;background:#ffffff18;border-radius:99px;padding:6px 9px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card,.stat{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:16px;box-shadow:0 7px 25px #0f172a0a}.stat .lab{font-size:10px;color:#667085;text-transform:uppercase;font-weight:950}.stat .num{font-size:25px;font-weight:1000;margin-top:4px}
+.two{display:grid;grid-template-columns:1.35fr .65fr;gap:15px;margin-top:15px}.card h2,.card h3{margin:0 0 12px}.info{font-size:12px;line-height:1.7;color:#667085;background:#f8fafc;border:1px solid #e5e7eb;border-radius:11px;padding:12px}
+.task{display:grid;grid-template-columns:25px 90px 1fr 190px;gap:9px;align-items:start;padding:14px 15px;border-bottom:1px solid #eef0f3}.task:last-child{border-bottom:0}.task.done{background:#f4fff6;opacity:.72}.task>input{width:19px;height:19px;accent-color:#16a34a}
+.badge{font-size:9px;font-weight:950;padding:6px 7px;border-radius:7px;text-align:center}.physics{background:#e9e7ff;color:#4338ca}.chemistry{background:#dcfce7;color:#166534}.botany{background:#dcfce7;color:#166534}.zoology{background:#fce7f3;color:#9d174d}
+.title{font-size:13px;font-weight:950}.small{font-size:10px;color:#667085;margin-top:3px}.mini{display:flex;gap:5px;align-items:center;font-size:10px;font-weight:800;color:#475467;margin-top:7px}.mini input{width:15px;height:15px;accent-color:#16a34a}.qbox{font-size:9px;color:#667085;font-weight:800}.qbox input{display:block;width:100%;border:1px solid #e5e7eb;border-radius:8px;padding:7px;margin-top:5px}
+.section{padding:13px 0;border-bottom:1px solid #e5e7eb}.section:last-child{border:0}.row{display:flex;justify-content:space-between;gap:10px}.bar{height:7px;background:#edf0f4;border-radius:99px;overflow:hidden;margin-top:7px}.bar i{display:block;height:100%;background:#6366f1}.filters{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.filters button,.primary,.dangerbtn{border:1px solid #e5e7eb;background:#fff;padding:8px 11px;border-radius:9px;cursor:pointer;font-weight:850}.filters button.active,.primary{background:#6366f1;color:#fff;border-color:#6366f1}.day{background:#fff;border:1px solid #e5e7eb;border-radius:15px;overflow:hidden;margin:11px 0}.dayhead{padding:13px 15px;background:#fafbff;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between}.dayhead b{font-weight:950}.muted{color:#667085;font-size:10px;margin-top:3px}
+.slots{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.slot{border:1px solid #e5e7eb;border-radius:10px;padding:11px;display:grid;grid-template-columns:100px 1fr;gap:8px}.slot b{font-size:11px}.slot span{font-size:11px;color:#667085}
+.month{background:#fff;border:1px solid #e5e7eb;border-left:5px solid #6366f1;border-radius:11px;padding:13px;margin:10px 0}.check{display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid #eef0f3;font-size:12px}.check:last-child{border:0}.check input{width:17px;height:17px;accent-color:#16a34a}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.calh{text-align:center;font-size:9px;color:#667085;font-weight:950}.cal{background:#fff;border:1px solid #e5e7eb;border-radius:9px;padding:8px;min-height:68px;cursor:pointer}.cal.today{outline:2px solid #6366f1}.cal b{font-size:12px}.cal span{display:block;font-size:9px;color:#667085;margin-top:4px}.green{color:#16a34a!important;font-weight:900}
+.notice{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;padding:11px;border-radius:10px;font-size:11px;line-height:1.6}
+@media(max-width:950px){.side{width:195px}main{margin-left:195px;width:calc(100% - 195px)}.grid4{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}}
+@media(max-width:650px){.app{display:block}.side{position:static;width:100%;padding:10px}.profile{display:flex;gap:9px;align-items:center;padding:4px 6px 10px}.avatar{width:42px;height:42px;margin:0}.name{font-size:17px}.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}.nav button{text-align:center;font-size:9px;padding:8px 3px}.sidefoot{display:none}main{margin:0;width:100%;padding:12px}h1{font-size:22px}.grid4{gap:7px}.stat{padding:11px}.stat .num{font-size:20px}.herorow{display:block}.heroNum{text-align:left;margin-top:10px}.task{grid-template-columns:22px 1fr}.task .badge,.task .qbox{grid-column:2}.slots{grid-template-columns:1fr}.calendar{gap:3px}.cal{padding:5px;min-height:59px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+ <div class="profile"><div class="avatar">SK</div><div><div class="name">Saad Khan</div><div class="tag">NEET 2027 COMMAND CENTER</div></div></div>
+ <div class="nav">
+  <button class="active" data-page="today">🎯 Today's Target</button>
+  <button data-page="planner">📋 Daily Planner</button>
+  <button data-page="calendar">📅 Calendar</button>
+  <button data-page="subjects">📚 Subjects</button>
+  <button data-page="hours">⏰ Study Hours</button>
+  <button data-page="progress">📊 Progress</button>
+  <button data-page="revision">🔁 Revision</button>
+  <button data-page="roadmap">🎓 Jan–May</button>
+ </div>
+ <div class="sidefoot"><b>LECTURE ORDER</b><br>Class 12 → Class 11<br>Physics starts with Basic Maths.<br><br>Every completed lecture automatically enters revision at +3, +7 and +21 days.</div>
+</aside>
+
+<main>
+<div class="top"><div><div class="eyebrow">SAAD KHAN • NEET 2027</div><h1 id="pageTitle">Today's Target</h1><div class="date">01 September 2026 → 30 December 2026</div></div><button class="primary" onclick="goToday()">Today</button></div>
+
+<section id="today" class="page active"><div id="todayHero"></div><div id="todayContent"></div></section>
+
+<section id="planner" class="page">
+ <div class="card"><h2>📋 Exact Daily Lecture Sequence</h2><div class="info">The planner never jumps ahead inside a subject. Each subject follows its chapter list exactly. The daily target takes the next unfinished lectures from that sequence.</div></div>
+ <div class="filters"><button class="active" onclick="filterPlan('all',this)">All</button><button onclick="filterPlan('Physics',this)">Physics</button><button onclick="filterPlan('Chemistry',this)">Chemistry</button><button onclick="filterPlan('Botany',this)">Botany</button><button onclick="filterPlan('Zoology',this)">Zoology</button></div>
+ <div id="plannerContent"></div>
+</section>
+
+<section id="calendar" class="page"><div class="card"><h2>📅 01 Sep → 30 Dec</h2><div class="info">Tap any day to open that exact daily target.</div><div id="calendarGrid" class="calendar" style="margin-top:14px"></div></div></section>
+
+<section id="subjects" class="page">
+ <div id="subjectStats" class="grid4"></div>
+ <div class="two"><div class="card"><h2>📚 Chapter Progress</h2><div id="subjectProgress"></div></div><div class="card"><h2>📌 Order Rules</h2><div class="info"><b>Physics:</b> Basic Maths → Class 12 → Class 11.<br><b>Chemistry:</b> Class 12 → Class 11.<br><b>Botany:</b> Class 12 → Class 11.<br><b>Zoology:</b> Class 12 → Class 11.<br><br>No chapter is skipped. No lecture number is invented.</div></div></div>
+</section>
+
+<section id="hours" class="page">
+ <div class="hero"><div class="herorow"><div><div class="eyebrow" style="color:#ddd">DAILY STUDY CLOCK</div><h2>⏰ Build your study hours</h2><p>Tap 1 hour when you genuinely complete one focused study hour.</p></div><div class="heroNum"><span id="hoursDone">0</span>/10<h6 style="margin:0">hours today</h6></div></div><div class="track"><i id="hourBar"></i></div></div>
+ <div class="card"><h2>Today's focused hours</h2><div id="hourButtons"></div></div>
+ <div class="two"><div class="card"><h2>Recommended timetable</h2><div class="slots">
+  <div class="slot"><b>06:30–07:00</b><span>Wake up + plan</span></div>
+  <div class="slot"><b>07:00–09:00</b><span>Biology / NCERT</span></div>
+  <div class="slot"><b>09:15–12:15</b><span>Physics lectures + notes</span></div>
+  <div class="slot"><b>12:15–13:00</b><span>Physics PYQs + MCQs</span></div>
+  <div class="slot"><b>14:00–17:00</b><span>Chemistry lectures + notes</span></div>
+  <div class="slot"><b>17:30–19:00</b><span>Chemistry questions</span></div>
+  <div class="slot"><b>20:00–21:30</b><span>Zoology + NCERT</span></div>
+  <div class="slot"><b>21:30–22:15</b><span>Revision + wrong questions</span></div>
+ </div></div><div class="card"><h2>⏱️ 1-hour rule</h2><div class="info">Every button represents one completed focused hour.<br><br>1 hour done → 9 remaining<br>2 hours done → 8 remaining<br>3 hours done → 7 remaining<br><br>The planner does <b>not</b> claim you studied an hour automatically. You control the clock.</div></div></div>
+</section>
+
+<section id="progress" class="page"><div id="progressStats" class="grid4"></div><div class="two"><div class="card"><h2>📈 Overall Progress</h2><div id="progressBars"></div></div><div class="card"><h2>📝 Question Rules</h2><div class="info"><b>Physics:</b> 10 PYQ + 20 MCQ per lecture.<br><b>Chemistry:</b> 8 PYQ + 12 NCERT-based + 15 MCQ per lecture.<br><b>Botany/Zoology:</b> 10 PYQ + 30 NCERT-based + 10 MCQ per lecture.<br><br>Enter actual attempted questions in the tracker.</div></div></div></section>
+
+<section id="revision" class="page">
+ <div class="hero"><div class="herorow"><div><div class="eyebrow" style="color:#ddd">AUTOMATIC REVISION ENGINE</div><h2>🔁 3 → 7 → 21 Day Revision</h2><p>When you complete a lecture, the planner creates revision checkpoints automatically.</p></div></div></div>
+ <div class="card"><h2>Today's revision queue</h2><div id="revisionToday"></div></div>
+ <div class="card" style="margin-top:15px"><h2>Upcoming revision</h2><div id="revisionUpcoming"></div></div>
+</section>
+
+<section id="roadmap" class="page">
+ <div class="hero"><div><div class="eyebrow" style="color:#ddd">AFTER DECEMBER 30</div><h2>🎓 Boards + NEET Final Roadmap</h2><p>January and February focus on Boards. March transitions from Boards to NEET. April and May are NEET final revision.</p></div></div>
+ <div class="month"><h3>📚 January — Board Revision Round 1</h3><div id="jan"></div></div>
+ <div class="month"><h3>📝 February — Board Intensive</h3><div id="feb"></div></div>
+ <div class="month"><h3>🎓 March — Boards + NEET Transition</h3><div id="mar"></div></div>
+ <div class="month"><h3>🔥 April — NEET Revision</h3><div id="apr"></div></div>
+ <div class="month"><h3>🚀 May — Final NEET Month</h3><div id="may"></div></div>
+ <div class="notice"><b>Final 3-month NEET revision:</b> March → April → May. During the Board exam window, Boards take priority. After the final Board paper, switch to NEET-heavy preparation.</div>
+</section>
+</main>
+</div>
+
+<script>
+const START="2026-09-01",END="2026-12-30";
+const KEY="saad_neet_final_v3",HKEY="saad_hours_v3",RKEY="saad_revision_v3";
+let state=JSON.parse(localStorage.getItem(KEY)||"{}");
+let hours=JSON.parse(localStorage.getItem(HKEY)||"{}");
+let revisions=JSON.parse(localStorage.getItem(RKEY)||"{}");
+let activeFilter="all";
+
+const DATA={
+Physics:{
+"Foundation":[["Basic Maths",7]],
+"Class 12":[["Electrostatics",19],["Current Electricity",13],["Capacitor",7],["Magnetic Effects of Current",16],["EMI",10],["AC",5],["EMW",2],["Ray Optics",20],["Wave Optics",10],["Semi Conductor",10],["Modern Physics",13]],
+"Class 11":[["Vector",3],["Kinematics",17],["NLM and Friction",15],["Work, Power, Energy",7],["Centre of Mass Collisions",7],["Circular Motion",6],["Rotation Motion",10],["Gravitation",8],["Fluids and Elasticity",12],["SHM",8],["Waves",12],["Heats & Thermodynamic",24]]
+},
+Chemistry:{
+"Class 12":[["Chemical Kinetics",13],["Solutions",13],["Electrochemistry",14],["Aromatic Hydrocarbons (Reaction Mechanism)",8],["Halogen Derivative (Reaction Mechanism)",8],["Alcohol, Phenol, Ether (Reaction Mechanism)",8],["Aldehyde, Ketone, Carboxylic Acid (Reaction Mechanism)",8],["Amine / Amines (Reaction Mechanism)",5],["Biomolecules",3],["Co-ordination Compound",12],["p-block",8],["d & f block",5],["Salt Analysis",10]],
+"Class 11":[["Some Basic Concepts of Chemistry",8],["Chemical Equilibrium",8],["Ionic Equilibrium",15],["Thermodynamics",15],["Atomic Structure",11],["Redox Reaction",5],["IUPAC Nomenclature",8],["Isomerism",12],["GOC-I",12],["Hydrocarbon (Reaction Mechanism)",10],["Periodic Table",16],["Chemical Bonding",20]]
+},
+Botany:{
+"Class 12":[["Sexual Reproduction in Flowering Plants",8],["Molecular Basis of Inheritance",11],["Principles of Inheritance and Variation",13],["Microbes in Human Welfare",2],["Organisms and Population",4],["Ecosystem",2],["Biodiversity and Conservation",2]],
+"Class 11":[["Cell - The Unit of Life",9],["Cell Cycle and Cell Division",7],["The Living World",3],["Biological Classification",6],["Plant Kingdom",7],["Morphology of Flowering Plants",6],["Anatomy of Flowering Plants",6],["Respiration in Plants",6],["Photosynthesis in Higher Plants",6],["Plant Growth and Development",4]]
+},
+Zoology:{
+"Class 12":[["Human Reproduction",9],["Reproductive Health",4],["Human Health & Diseases",7],["Biotechnology: Principles & Processes",5],["Biotechnology and its Applications",4],["Evolution",6]],
+"Class 11":[["Structural Organization in Animals",13],["Breathing & Exchange of Gases",7],["Body Fluids & Circulation",8],["Excretory Products & Their Elimination",6],["Locomotion & Movement",6],["Neural Control & Coordination",7],["Chemical Coordination & Integration",6],["Animal Kingdom",7],["Biomolecules",6]]
+}};
+
+function queue(subject){
+ let a=[];
+ Object.entries(DATA[subject]).forEach(([phase,chs])=>chs.forEach(([chapter,count])=>{
+  for(let n=1;n<=count;n++)a.push({subject,phase,chapter,lecture:n});
+ }));
+ return a;
+}
+const Q={};["Physics","Chemistry","Botany","Zoology"].forEach(s=>Q[s]=queue(s));
+const TOTALS={Physics:Q.Physics.length,Chemistry:Q.Chemistry.length,Botany:Q.Botany.length,Zoology:Q.Zoology.length};
+const TOTAL=Object.values(TOTALS).reduce((a,b)=>a+b,0);
+
+function isoAdd(iso,n){let d=new Date(iso+"T00:00:00");d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)}
+function nice(iso){return new Date(iso+"T00:00:00").toLocaleDateString("en-IN",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}
+function key(s,t){return s+"|"+t.phase+"|"+t.chapter+"|"+t.lecture}
+function completed(t){return !!state["done_"+key(t,t)]}
+function ncert(t){return !!state["ncert_"+key(t,t)]}
+function qcount(t){return Number(state["q_"+key(t,t)]||0)}
+function complete(t,v){
+ state["done_"+key(t,t)]=v;
+ if(v)createRevisions(t);
+ localStorage.setItem(KEY,JSON.stringify(state));renderAll();
+}
+function markNCERT(t,v){state["ncert_"+key(t,t)]=v;localStorage.setItem(KEY,JSON.stringify(state));renderAll()}
+function setQ(t,v){state["q_"+key(t,t)]=Number(v||0);localStorage.setItem(KEY,JSON.stringify(state));renderCounters()}
+
+/*
+ EXACT DAILY ENGINE:
+ Each day takes TWO next lectures from each subject's own queue.
+ If a subject has fewer than two remaining, it takes what remains.
+ This creates the user's requested visual:
+ Physics Lx/Ly, Chemistry Lx/Ly, Botany Lx/Ly, Zoology Lx/Ly.
+ The order inside each queue is never changed.
+*/
+const PLAN=[];
+for(let d=0;d<121;d++){
+ let items=[];
+ ["Physics","Chemistry","Botany","Zoology"].forEach(s=>{
+  const already=PLAN.reduce((n,day)=>n+day.items.filter(x=>x.subject===s).length,0);
+  Q[s].slice(already,already+2).forEach(x=>items.push(x));
+ });
+ PLAN.push({day:d+1,date:isoAdd(START,d),items});
+}
+
+function targets(t){
+ if(t.subject==="Physics")return {pyq:10,ncert:0,mcq:20};
+ if(t.subject==="Chemistry")return {pyq:8,ncert:12,mcq:15};
+ return {pyq:10,ncert:30,mcq:10};
+}
+function taskHTML(t){
+ const x=targets(t),done=completed(t);
+ return `<div class="task ${done?"done":""}">
+ <input type="checkbox" ${done?"checked":""} onchange='complete(${JSON.stringify(t)},this.checked)'>
+ <span class="badge ${t.subject.toLowerCase()}">${t.subject}</span>
+ <div><div class="title">Lecture ${t.lecture} — ${t.chapter}</div><div class="small">${t.phase}</div>
+ <label class="mini"><input type="checkbox" ${ncert(t)?"checked":""} onchange='markNCERT(${JSON.stringify(t)},this.checked)'> 📖 NCERT read done</label></div>
+ <div class="qbox">Recommended: ${x.pyq} PYQ • ${x.ncert} NCERT • ${x.mcq} MCQ<input type="number" min="0" value="${qcount(t)}" placeholder="Actual questions attempted" onchange='setQ(${JSON.stringify(t)},this.value)'></div>
+ </div>`;
+}
+
+function todayIndex(){let a=new Date(START+"T00:00:00"),b=new Date();b=new Date(b.getFullYear(),b.getMonth(),b.getDate());return Math.max(0,Math.min(120,Math.floor((b-a)/86400000)))}
+function renderToday(){
+ const day=PLAN[todayIndex()];
+ const done=day.items.filter(completed).length;
+ const pc=Math.round(done/day.items.length*100);
+ const qs=day.items.reduce((n,t)=>n+qcount(t),0);
+ const nc=day.items.filter(ncert).length;
+ document.getElementById("todayHero").innerHTML=`<div class="hero"><div class="herorow"><div><div class="eyebrow" style="color:#ddd">DAY ${day.day} • EXACT NEXT LECTURES</div><h2>🎯 Today's Target</h2><p>${nice(day.date)}</p></div><div class="heroNum">${done}/${day.items.length}<div style="font-size:10px">lectures completed</div></div></div><div class="track"><i style="width:${pc}%"></i></div><div class="pills"><span class="pill">⚡ Physics: 2 lectures</span><span class="pill">🧪 Chemistry: 2 lectures</span><span class="pill">🌿 Botany: 2 lectures</span><span class="pill">🐾 Zoology: 2 lectures</span><span class="pill">📖 ${nc} NCERT done</span><span class="pill">📝 ${qs} questions logged</span></div></div>`;
+ document.getElementById("todayContent").innerHTML=`<div class="card" style="padding:0;overflow:hidden"><div style="padding:15px;border-bottom:1px solid #e5e7eb;font-weight:950">Today's lectures — exact sequence</div>${day.items.map(taskHTML).join("")}</div>`;
+}
+function filterPlan(f,b){activeFilter=f;document.querySelectorAll(".filters button").forEach(x=>x.classList.remove("active"));b.classList.add("active");renderPlanner()}
+function renderPlanner(){
+ document.getElementById("plannerContent").innerHTML=PLAN.map(day=>{
+  const arr=day.items.filter(t=>activeFilter==="all"||t.subject===activeFilter);if(!arr.length)return "";
+  const d=day.items.filter(completed).length;
+  return `<div class="day" id="D${day.date}"><div class="dayhead"><div><b>Day ${day.day} • ${nice(day.date)}</b><div class="muted">${d}/${day.items.length} lectures complete</div></div><b>${Math.round(d/day.items.length*100)}%</b></div>${arr.map(taskHTML).join("")}</div>`;
+ }).join("");
+}
+function renderCalendar(){
+ let h=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(x=>`<div class="calh">${x}</div>`).join("");
+ let off=(new Date(START+"T00:00:00").getDay()+6)%7;for(let i=0;i<off;i++)h+="<div></div>";
+ PLAN.forEach((d,i)=>{let n=d.items.filter(completed).length;h+=`<div class="cal ${i===todayIndex()?"today":""}" onclick="openDay('${d.date}')"><b>${new Date(d.date+"T00:00:00").getDate()}</b><span>Day ${d.day}</span><span class="${n===d.items.length?"green":""}">${n}/${d.items.length}</span></div>`});document.getElementById("calendarGrid").innerHTML=h;
+}
+function openDay(date){showPage("planner");setTimeout(()=>document.getElementById("D"+date)?.scrollIntoView({behavior:"smooth"}),50)}
+
+function renderSubjects(){
+ document.getElementById("subjectStats").innerHTML=Object.entries(TOTALS).map(([s,total])=>{let d=Q[s].filter(completed).length;return `<div class="stat"><div class="lab">${s}</div><div class="num">${d}/${total}</div><div class="muted">${Math.round(d/total*100)}% complete</div></div>`}).join("");
+ let h="";Object.entries(DATA).forEach(([s,phases])=>{h+=`<div class="section"><h3>${s}</h3>`;Object.entries(phases).forEach(([phase,chs])=>chs.forEach(([chapter,total])=>{let arr=Q[s].filter(x=>x.phase===phase&&x.chapter===chapter),d=arr.filter(completed).length,p=Math.round(d/total*100);h+=`<div class="section"><div class="row"><b>${chapter}</b><b>${d}/${total}</b></div><div class="bar"><i style="width:${p}%"></i></div><div class="muted">${phase}</div></div>` }));h+=`</div>`});document.getElementById("subjectProgress").innerHTML=h;
+}
+function allDone(){return Object.values(TOTALS).reduce((a,total)=>a,0)}
+function renderProgress(){
+ let d=Object.values(TOTALS).reduce((a,_,i)=>a,0);
+ const completedAll=Object.keys(state).filter(k=>k.startsWith("done_")&&state[k]).length;
+ const nc=Object.keys(state).filter(k=>k.startsWith("ncert_")&&state[k]).length;
+ const qs=Object.keys(state).filter(k=>k.startsWith("q_")).reduce((a,k)=>a+Number(state[k]||0),0);
+ document.getElementById("progressStats").innerHTML=[["Lectures completed",completedAll],["Lectures remaining",Math.max(0,TOTAL-completedAll)],["NCERT reads done",nc],["Questions attempted",qs]].map(x=>`<div class="stat"><div class="lab">${x[0]}</div><div class="num">${x[1]}</div></div>`).join("");
+ document.getElementById("progressBars").innerHTML=Object.entries(TOTALS).map(([s,total])=>{let n=Q[s].filter(completed).length,p=Math.round(n/total*100);return `<div class="section"><div class="row"><b>${s}</b><b>${p}%</b></div><div class="bar"><i style="width:${p}%"></i></div><div class="muted">${n}/${total} lectures</div></div>`}).join("")+`<div class="info" style="margin-top:12px"><b>Overall:</b> ${completedAll}/${TOTAL} lectures (${Math.round(completedAll/TOTAL*100)}%)</div>`;
+}
+function renderCounters(){renderToday();renderProgress();renderSubjects()}
+
+/* REVISION: +3, +7, +21 days after the lecture is actually completed. */
+function createRevisions(t){
+ const k=key(t,t);
+ [3,7,21].forEach(n=>{let id=k+"|"+n;if(!revisions[id])revisions[id]={subject:t.subject,phase:t.phase,chapter:t.chapter,lecture:t.lecture,offset:n,created:new Date().toISOString().slice(0,10),done:false}});localStorage.setItem(RKEY,JSON.stringify(revisions));
+}
+function revToggle(id,v){if(revisions[id])revisions[id].done=v;localStorage.setItem(RKEY,JSON.stringify(revisions));renderRevision()}
+function revisionDate(r){return isoAdd(r.created,r.offset)}
+function renderRevision(){
+ const today=isoAdd(START,todayIndex());
+ const vals=Object.entries(revisions);
+ const due=vals.filter(([id,r])=>revisionDate(r)===today&&!r.done);
+ const upcoming=vals.filter(([id,r])=>revisionDate(r)>today&&!r.done).sort((a,b)=>revisionDate(a[1]).localeCompare(revisionDate(b[1]))).slice(0,40);
+ const item=(id,r)=>`<label class="check"><input type="checkbox" ${r.done?"checked":""} onchange="revToggle('${encodeURIComponent(id)}',this.checked)"><b>${r.subject}</b> — Lecture ${r.lecture} • ${r.chapter} <span style="margin-left:auto;color:#667085;font-size:10px">+${r.offset} days</span></label>`;
+ document.getElementById("revisionToday").innerHTML=due.length?due.map(([id,r])=>item(encodeURIComponent(id),r)).join(""):`<div class="info">🎉 No automatic revision is due today. Keep moving with today's lectures.</div>`;
+ document.getElementById("revisionUpcoming").innerHTML=upcoming.length?upcoming.map(([id,r])=>`<div class="section"><b>${revisionDate(r)}</b><div class="muted">${r.subject} • Lecture ${r.lecture} • ${r.chapter} • +${r.offset} days</div></div>`).join(""):`<div class="info">Complete lectures to generate future revision checkpoints.</div>`;
+}
+
+/* Hours: 10 focused hours max shown. User can tick one hour at a time. */
+function hourKey(){return isoAdd(START,todayIndex())}
+function renderHours(){
+ const k=hourKey(),n=Number(hours[k]||0);
+ document.getElementById("hoursDone").textContent=n;document.getElementById("hourBar").style.width=(n/10*100)+"%";
+ let h="";for(let i=1;i<=10;i++)h+=`<button class="${i<=n?"primary":""}" style="margin:4px" onclick="setHours(${i})">${i<=n?"✓ ":""}${i} hour ${i===1?"done":"done"}</button>`;document.getElementById("hourButtons").innerHTML=h+`<div class="info" style="margin-top:12px"><b>${n} hour${n===1?"":"s"} done → ${10-n} hour${10-n===1?"":"s"} remaining.</b></div>`;
+}
+function setHours(n){hours[hourKey()]=n;localStorage.setItem(HKEY,JSON.stringify(hours));renderHours()}
+
+/* Board + NEET roadmap */
+const ROAD={
+jan:["Read Class 12 NCERT chapter by chapter","Mark definitions, diagrams, formulas and reactions","Update short notes","Chapter-wise Board questions","Weekly chapter tests","Maintain Board mistake book"],
+feb:["Second NCERT reading of weak chapters","Board PYQs","Board sample papers","Physics derivations and numericals","Chemistry equations/reactions","Biology diagrams and long answers","Full Board-paper practice"],
+mar:["Board revision before each paper","Board PYQs/sample papers","NCERT for the next Board paper","After Boards: timed NEET MCQs","After Boards: NEET PYQs","Start rapid NEET NCERT revision"],
+apr:["Complete NEET rapid revision Round 1","Physics formulas + weak chapters","Chemistry reactions + NCERT facts","Biology NCERT line-by-line","Topic-wise NEET PYQs","Full/part-syllabus mocks","Analyse every wrong question"],
+may:["Final Biology NCERT revision","Physics formula + weak-topic revision","Chemistry formula/reaction/NCERT revision","Full NEET mocks under exam timing","Mistake-book revision","Weak/high-yield topic revision","Do not start large new resources"]
+};
+function renderRoadmap(){Object.entries(ROAD).forEach(([m,arr])=>document.getElementById(m).innerHTML=arr.map((x,i)=>{let k=m+i;return `<label class="check"><input type="checkbox" ${revisions[k]?"checked":""} onchange="roadToggle('${k}',this.checked)">${x}</label>`}).join(""))}
+function roadToggle(k,v){revisions[k]=v;localStorage.setItem(RKEY,JSON.stringify(revisions));renderRoadmap()}
+
+function showPage(id){
+ document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");
+ document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("active",x.dataset.page===id));
+ const b=document.querySelector(`[data-page="${id}"]`);document.getElementById("pageTitle").textContent=b.textContent.replace(/^[^\s]+\s/,"");
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>showPage(b.dataset.page));
+function goToday(){showPage("today");renderToday()}
+
+function renderAll(){renderToday();renderPlanner();renderCalendar();renderSubjects();renderProgress();renderHours();renderRevision();renderRoadmap()}
+renderAll();
+</script>
+</body>
+</html>

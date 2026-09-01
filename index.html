@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEET 2027 Master Planner</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #131d31;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-physics: #38bdf8;
+            --accent-chem: #f43f5e;
+            --accent-botany: #10b981;
+            --accent-zoo: #a855f7;
+            --accent-general: #f59e0b;
+            --border-color: #334155;
+            --success: #22c55e;
+            --warning: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* App Layout */
+        .app-container {
+            display: flex;
+            flex: 1;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 260px;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem 1rem;
+            gap: 1.5rem;
+            z-index: 10;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-physics);
+            padding: 0 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            list-style: none;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: rgba(56, 189, 248, 0.1);
+            color: var(--accent-physics);
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-item .badge {
+            margin-left: auto;
+            background-color: var(--warning);
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 1rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg-primary);
+        }
+
+        header {
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+
+        .date-navigator {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background-color: var(--bg-card);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .date-navigator button {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+        }
+
+        .date-navigator button:hover {
+            background-color: var(--border-color);
+        }
+
+        .current-day-display {
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .current-day-display .sub-date {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: normal;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            background-color: var(--accent-physics);
+            color: var(--bg-primary);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn-danger {
+            background-color: var(--warning);
+            color: white;
+        }
+
+        /* View Panels */
+        .view-panel {
+            display: none;
+            padding: 2rem;
+            flex: 1;
+        }
+
+        .view-panel.active {
+            display: block;
+        }
+
+        /* Metrics Cards */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .metric-card .title {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .metric-card .value {
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+
+        .metric-card .sub-value {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Section Layouts */
+        .section-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 1024px) {
+            .section-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Task List */
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--bg-secondary);
+            padding: 0.85rem 1rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--border-color);
+            transition: transform 0.1s ease;
+        }
+
+        .task-item:hover {
+            transform: translateX(2px);
+        }
+
+        .task-item.physics { border-left-color: var(--accent-physics); }
+        .task-item.chemistry { border-left-color: var(--accent-chem); }
+        .task-item.botany { border-left-color: var(--accent-botany); }
+        .task-item.zoology { border-left-color: var(--accent-zoo); }
+        .task-item.general { border-left-color: var(--accent-general); }
+
+        .task-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .checkbox-custom {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 2px solid var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .task-item.completed .checkbox-custom {
+            background-color: var(--success);
+            border-color: var(--success);
+        }
+
+        .task-item.completed .checkbox-custom::after {
+            content: '✓';
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .task-item.completed .task-title {
+            text-decoration: line-through;
+            color: var(--text-secondary);
+        }
+
+        .task-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .task-title {
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .task-meta {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.2rem;
+        }
+
+        .tag {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 0.1rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.7rem;
+        }
+
+        .tag.backlog { background-color: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+        .tag.revision { background-color: rgba(168, 85, 247, 0.2); color: #d8b4fe; }
+
+        /* Timetable List */
+        .timetable-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .tt-slot {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            background-color: var(--bg-secondary);
+            border-radius: 0.5rem;
+        }
+
+        .tt-time {
+            font-size: 0.8rem;
+            color: var(--accent-physics);
+            font-weight: 600;
+            width: 110px;
+            flex-shrink: 0;
+        }
+
+        .tt-desc {
+            font-size: 0.9rem;
+        }
+
+        /* Syllabus Accordion */
+        .subject-accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .subject-block {
+            background-color: var(--bg-secondary);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .subject-header {
+            padding: 1rem 1.25rem;
+            background-color: rgba(255, 255, 255, 0.02);
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .chapter-list {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .chapter-item {
+            background-color: var(--bg-card);
+            padding: 0.75rem 1rem;
+            border-radius: 0.375rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: var(--bg-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent-physics);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                padding: 0.75rem;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .nav-links {
+                flex-direction: row;
+                gap: 0.25rem;
+            }
+
+            .nav-item span {
+                display: none;
+            }
+
+            .main-content {
+                height: calc(100vh - 60px);
+            }
+
+            header {
+                padding: 0.75rem 1rem;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="brand">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>NEET 2027</span>
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item active" onclick="switchTab('dashboard')">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Dashboard</span>
+                </li>
+                <li class="nav-item" onclick="switchTab('targets')">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>Daily Target</span>
+                    <span class="badge" id="backlog-badge">0</span>
+                </li>
+                <li class="nav-item" onclick="switchTab('backlog')">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>Backlog</span>
+                </li>
+                <li class="nav-item" onclick="switchTab('revisions')">
+                    <i class="fa-solid fa-rotate"></i>
+                    <span>Revisions</span>
+                </li>
+                <li class="nav-item" onclick="switchTab('timetable')">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span>Timetable</span>
+                </li>
+                <li class="nav-item" onclick="switchTab('syllabus')">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Syllabus</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <header>
+                <div class="date-navigator">
+                    <button onclick="navigateDate(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="current-day-display">
+                        <div id="display-day-num">Day 1</div>
+                        <div class="sub-date" id="display-date">1 Sep 2026</div>
+                    </div>
+                    <button onclick="navigateDate(1)"><i class="fa-solid fa-chevron-right"></i></button>
+                    <button onclick="resetToToday()" title="Jump to Real Date"><i class="fa-solid fa-location-crosshairs"></i></button>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-danger" onclick="confirmResetData()"><i class="fa-solid fa-triangle-exclamation"></i> Reset App</button>
+                </div>
+            </header>
+
+            <div id="view-dashboard" class="view-panel active">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <span class="title">Daily Progress</span>
+                        <span class="value" id="dash-progress-text">0%</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="dash-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <span class="title">Lectures Completed</span>
+                        <span class="value" id="dash-lectures-count">0 / 0</span>
+                        <span class="sub-value" id="dash-lectures-sub">0% Overall</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="title">Active Backlog</span>
+                        <span class="value" style="color: var(--warning);" id="dash-backlog-count">0</span>
+                        <span class="sub-value">Incomplete Tasks</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="title">Revisions Pending</span>
+                        <span class="value" style="color: var(--accent-zoo);" id="dash-revision-count">0</span>
+                        <span class="sub-value">Due Today/Overdue</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="title">Study Streak</span>
+                        <span class="value" style="color: var(--accent-general);" id="dash-streak">0 Days</span>
+                        <span class="sub-value">Consistency Track</span>
+                    </div>
+                </div>
+
+                <div class="section-grid">
+                    <div>
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title"><i class="fa-solid fa-fire"></i> Priority Backlog Tasks</span>
+                            </div>
+                            <div class="task-list" id="dash-priority-backlog"></div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title"><i class="fa-solid fa-sun"></i> Today's Schedule Overview</span>
+                            </div>
+                            <div class="task-list" id="dash-today-tasks"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title"><i class="fa-solid fa-chart-bar"></i> Subject Progress</span>
+                            </div>
+                            <div id="subject-progress-list" style="display: flex; flex-direction: column; gap: 1rem;">
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-targets" class="view-panel">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title"><i class="fa-solid fa-triangle-exclamation" style="color: var(--warning);"></i> Priority Backlog (Incomplete Previous Tasks)</span>
+                    </div>
+                    <div class="task-list" id="target-backlog-list"></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title"><i class="fa-solid fa-list-check"></i> Today's Assigned Targets</span>
+                    </div>
+                    <div class="task-list" id="target-today-list"></div>
+                </div>
+            </div>
+
+            <div id="view-backlog" class="view-panel">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title"><i class="fa-solid fa-clock-rotate-left"></i> Cumulative Backlog Hub</span>
+                    </div>
+                    <div class="task-list" id="full-backlog-list"></div>
+                </div>
+            </div>
+
+            <div id="view-revisions" class="view-panel">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title"><i class="fa-solid fa-rotate"></i> Long-Term Revision Tracker (+3, +7, +21, +45, +70, +100 Days)</span>
+                    </div>
+                    <div class="task-list" id="revision-task-list"></div>
+                </div>
+            </div>
+
+            <div id="view-timetable" class="view-panel">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title"><i class="fa-solid fa-calendar-days"></i> Daily Fixed Chronological Timetable</span>
+                    </div>
+                    <div class="timetable-list" id="timetable-slots"></div>
+                </div>
+            </div>
+
+            <div id="view-syllabus" class="view-panel">
+                <div class="subject-accordion" id="syllabus-accordion"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        /*************************************************************
+         * 1. APP CONFIGURATION & SYLLABUS DATA STRUCTURE
+         *************************************************************/
+        const START_DATE = "2026-09-01"; // Day 1 = 1 Sep 2026
+
+        const SYLLABUS = {
+            physics: [
+                { name: "Physical World & Measurement", lectures: 3 },
+                { name: "Kinematics", lectures: 10 },
+                { name: "Laws of Motion", lectures: 8 },
+                { name: "Work, Energy & Power", lectures: 7 },
+                { name: "System of Particles & Rotational Motion", lectures: 9 },
+                { name: "Gravitation", lectures: 6 },
+                { name: "Properties of Bulk Matter", lectures: 10 },
+                { name: "Thermodynamics", lectures: 7 },
+                { name: "Behavior of Perfect Gas & Kinetic Theory", lectures: 4 },
+                { name: "Oscillations & Waves", lectures: 10 }
+            ],
+            chemistry: [
+                { name: "Some Basic Concepts of Chemistry", lectures: 8 },
+                { name: "Structure of Atom", lectures: 8 },
+                { name: "Classification of Elements & Periodicity", lectures: 6 },
+                { name: "Chemical Bonding & Molecular Structure", lectures: 10 },
+                { name: "States of Matter", lectures: 6 },
+                { name: "Thermodynamics", lectures: 8 },
+                { name: "Equilibrium", lectures: 10 },
+                { name: "Redox Reactions", lectures: 4 },
+                { name: "Organic Chemistry: Basic Principles", lectures: 12 },
+                { name: "Hydrocarbons", lectures: 10 }
+            ],
+            botany: [
+                { name: "The Living World", lectures: 3 },
+                { name: "Biological Classification", lectures: 6 },
+                { name: "Plant Kingdom", lectures: 8 },
+                { name: "Morphology of Flowering Plants", lectures: 7 },
+                { name: "Anatomy of Flowering Plants", lectures: 7 },
+                { name: "Cell: The Unit of Life", lectures: 8 },
+                { name: "Cell Cycle & Cell Division", lectures: 5 },
+                { name: "Photosynthesis in Higher Plants", lectures: 7 },
+                { name: "Respiration in Plants", lectures: 6 },
+                { name: "Plant Growth & Development", lectures: 5 }
+            ],
+            zoology: [
+                { name: "Animal Kingdom", lectures: 8 },
+                { name: "Structural Organisation in Animals", lectures: 6 },
+                { name: "Biomolecules", lectures: 7 },
+                { name: "Breathing & Exchange of Gases", lectures: 5 },
+                { name: "Body Fluids & Circulation", lectures: 6 },
+                { name: "Excretory Products & their Elimination", lectures: 5 },
+                { name: "Locomotion & Movement", lectures: 5 },
+                { name: "Neural Control & Coordination", lectures: 6 },
+                { name: "Chemical Coordination & Integration", lectures: 5 }
+            ]
+        };
+
+        const TIMETABLE_SCHEDULE = [
+            { time: "06:00 AM - 08:30 AM", title: "Physics Lecture", subject: "physics", duration: "2.5 hrs" },
+            { time: "08:30 AM - 10:00 AM", title: "Physics Question Solving", subject: "physics", duration: "1.5 hrs" },
+            { time: "10:00 AM - 10:30 AM", title: "Breakfast / Short Break", subject: "general", duration: "30 mins" },
+            { time: "10:30 AM - 01:00 PM", title: "Chemistry Lecture", subject: "chemistry", duration: "2.5 hrs" },
+            { time: "01:00 PM - 02:30 PM", title: "Chemistry Question Solving", subject: "chemistry", duration: "1.5 hrs" },
+            { time: "02:30 PM - 03:30 PM", title: "Lunch & Relaxation", subject: "general", duration: "1 hr" },
+            { time: "03:30 PM - 05:30 PM", title: "Botany Lecture", subject: "botany", duration: "2 hrs" },
+            { time: "05:30 PM - 07:00 PM", title: "Botany Question Solving", subject: "botany", duration: "1.5 hrs" },
+            { time: "07:00 PM - 07:30 PM", title: "Evening Break", subject: "general", duration: "30 mins" },
+            { time: "07:30 PM - 08:30 PM", title: "Zoology Lecture", subject: "zoology", duration: "1 hr" },
+            { time: "08:30 PM - 10:00 PM", title: "Zoology Question Solving", subject: "zoology", duration: "1.5 hrs" },
+            { time: "10:00 PM - 10:30 PM", title: "Botany & Zoology NCERT Reading", subject: "botany", duration: "30 mins" },
+            { time: "10:30 PM - 11:00 PM", title: "Same-Day Night Revision", subject: "general", duration: "30 mins" }
+        ];
+
+        const REVISION_INTERVALS = [3, 7, 21, 45, 70, 100];
+
+        /*************************************************************
+         * 2. STATE MANAGEMENT & LOCALSTORAGE
+         *************************************************************/
+        let appState = {
+            completedTasks: {}, // taskId: boolean
+            generatedDays: {},  // dateStr: true
+            tasksByDate: {},    // dateStr: [taskArray]
+            longTermRevisions: [] // list of scheduled revision objects
+        };
+
+        let viewingDateStr = getRealLocalDateStr();
+
+        // Timezone-safe local date string format (YYYY-MM-DD)
+        function getRealLocalDateStr() {
+            const d = new Date();
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function parseLocalDate(dateStr) {
+            const [y, m, d] = dateStr.split('-').map(Number);
+            return new Date(y, m - 1, d);
+        }
+
+        function formatLocalDateStr(dateObj) {
+            const y = dateObj.getFullYear();
+            const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const d = String(dateObj.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+
+        function dateDiffInDays(d1Str, d2Str) {
+            const d1 = parseLocalDate(d1Str);
+            const d2 = parseLocalDate(d2Str);
+            const diffTime = d2.getTime() - d1.getTime();
+            return Math.floor(diffTime / (1000 * 3600 * 24));
+        }
+
+        function addDays(dateStr, days) {
+            const d = parseLocalDate(dateStr);
+            d.setDate(d.getDate() + days);
+            return formatLocalDateStr(d);
+        }
+
+        function getDayNumber(dateStr) {
+            return dateDiffInDays(START_DATE, dateStr) + 1;
+        }
+
+        function loadState() {
+            const data = localStorage.getItem('neet_2027_planner_state');
+            if (data) {
+                try {
+                    appState = JSON.parse(data);
+                } catch(e) {
+                    console.error("State parse error", e);
+                }
+            }
+        }
+
+        function saveState() {
+            localStorage.setItem('neet_2027_planner_state', JSON.stringify(appState));
+        }
+
+        function confirmResetData() {
+            if (confirm("Are you sure you want to reset all progress? This action cannot be undone.")) {
+                localStorage.removeItem('neet_2027_planner_state');
+                location.reload();
+            }
+        }
+
+        /*************************************************************
+         * 3. SEQUENTIAL LECTURE QUEUE GENERATOR
+         *************************************************************/
+        function getLinearLectureQueue(subjectKey) {
+            const queue = [];
+            const chapters = SYLLABUS[subjectKey];
+            chapters.forEach((chap, cIdx) => {
+                for (let l = 1; l <= chap.lectures; l++) {
+                    queue.push({
+                        subject: subjectKey,
+                        chapterName: chap.name,
+                        chapterIndex: cIdx + 1,
+                        lectureNum: l,
+                        totalLectures: chap.lectures,
+                        title: `${chap.name} - Lec ${l}/${chap.lectures}`
+                    });
+                }
+            });
+            return queue;
+        }
+
+        const PHYSICS_QUEUE = getLinearLectureQueue('physics');
+        const CHEM_QUEUE = getLinearLectureQueue('chemistry');
+        const BOTANY_QUEUE = getLinearLectureQueue('botany');
+        const ZOO_QUEUE = getLinearLectureQueue('zoology');
+
+        /*************************************************************
+         * 4. DYNAMIC TASK GENERATION SYSTEM
+         *************************************************************/
+        function ensureDaysGeneratedUpTo(targetDateStr) {
+            // Build chronologically from Start Date to Target Date
+            let curr = START_DATE;
+            const end = targetDateStr;
+
+            // If viewing prior to start date, just ensure start date exists
+            if (dateDiffInDays(START_DATE, targetDateStr) < 0) return;
+
+            while (dateDiffInDays(curr, end) >= 0) {
+                if (!appState.generatedDays[curr]) {
+                    generateDailyTasks(curr);
+                    appState.generatedDays[curr] = true;
+                }
+                curr = addDays(curr, 1);
+            }
+            saveState();
+        }
+
+        function generateDailyTasks(dateStr) {
+            const dayNum = getDayNumber(dateStr);
+            if (dayNum < 1) return;
+
+            // Determine which lecture index belongs to this day (0-indexed array)
+            const phyLec = PHYSICS_QUEUE[dayNum - 1];
+            const chemLec = CHEM_QUEUE[dayNum - 1];
+            const botLec = BOTANY_QUEUE[dayNum - 1];
+            const zooLec = ZOO_QUEUE[dayNum - 1];
+
+            const tasks = [];
+
+            // 1. Physics
+            if (phyLec) {
+                tasks.push({ id: `${dateStr}_phy_lec`, type: 'lecture', subject: 'physics', title: `Physics: ${phyLec.title}`, duration: '2.5 hrs', dateStr });
+                tasks.push({ id: `${dateStr}_phy_qs`, type: 'practice', subject: 'physics', title: `Physics Question Solving (${phyLec.chapterName})`, duration: '1.5 hrs', dateStr });
+            }
+
+            // 2. Chemistry
+            if (chemLec) {
+                tasks.push({ id: `${dateStr}_chem_lec`, type: 'lecture', subject: 'chemistry', title: `Chemistry: ${chemLec.title}`, duration: '2.5 hrs', dateStr });
+                tasks.push({ id: `${dateStr}_chem_qs`, type: 'practice', subject: 'chemistry', title: `Chemistry Question Solving (${chemLec.chapterName})`, duration: '1.5 hrs', dateStr });
+            }
+
+            // 3. Botany
+            if (botLec) {
+                tasks.push({ id: `${dateStr}_bot_lec`, type: 'lecture', subject: 'botany', title: `Botany: ${botLec.title}`, duration: '2 hrs', dateStr });
+                tasks.push({ id: `${dateStr}_bot_qs`, type: 'practice', subject: 'botany', title: `Botany Question Solving (${botLec.chapterName})`, duration: '1.5 hrs', dateStr });
+            }
+
+            // 4. Zoology
+            if (zooLec) {
+                tasks.push({ id: `${dateStr}_zoo_lec`, type: 'lecture', subject: 'zoology', title: `Zoology: ${zooLec.title}`, duration: '1 hr', dateStr });
+                tasks.push({ id: `${dateStr}_zoo_qs`, type: 'practice', subject: 'zoology', title: `Zoology Question Solving (${zooLec.chapterName})`, duration: '1.5 hrs', dateStr });
+            }
+
+            // 5. NCERT Reading (Botany & Zoology ONLY)
+            tasks.push({ id: `${dateStr}_ncert_bio`, type: 'ncert', subject: 'botany', title: `NCERT Reading: Botany & Zoology Topics`, duration: '30 mins', dateStr });
+
+            // 6. Same-Day Night Revision Task
+            tasks.push({ id: `${dateStr}_night_rev`, type: 'night_revision', subject: 'general', title: `Night Revision: All Today's Lectures & Notes`, duration: '30 mins', dateStr });
+
+            appState.tasksByDate[dateStr] = tasks;
+        }
+
+        /*************************************************************
+         * 5. BACKLOG & REVISION CALCULATIONS
+         *************************************************************/
+        function getActiveBacklog(upToDateStr) {
+            const backlog = [];
+            const sortedDates = Object.keys(appState.tasksByDate).sort();
+
+            for (let dStr of sortedDates) {
+                if (dateDiffInDays(dStr, upToDateStr) > 0) { // Past days relative to upToDateStr
+                    const dayTasks = appState.tasksByDate[dStr] || [];
+                    for (let t of dayTasks) {
+                        if (!appState.completedTasks[t.id]) {
+                            backlog.push(t);
+                        }
+                    }
+                }
+            }
+            return backlog;
+        }
+
+        function checkAndTriggerLongTermRevisions(completedTaskId, dateCompletedStr) {
+            // If completed task is a lecture, schedule long term revisions
+            const taskObj = findTaskById(completedTaskId);
+            if (!taskObj || taskObj.type !== 'lecture') return;
+
+            REVISION_INTERVALS.forEach(interval => {
+                const targetRevDate = addDays(dateCompletedStr, interval);
+                const revId = `rev_${taskObj.id}_+${interval}`;
+                
+                // Avoid duplicate creation
+                if (!appState.longTermRevisions.some(r => r.id === revId)) {
+                    appState.longTermRevisions.push({
+                        id: revId,
+                        parentTaskId: taskObj.id,
+                        title: `Rev (+${interval}d): ${taskObj.title}`,
+                        subject: taskObj.subject,
+                        dueDateStr: targetRevDate,
+                        interval: interval
+                    });
+                }
+            });
+            saveState();
+        }
+
+        function getRevisionsDueOn(dateStr) {
+            return appState.longTermRevisions.filter(r => dateDiffInDays(r.dueDateStr, dateStr) >= 0 && !appState.completedTasks[r.id]);
+        }
+
+        function findTaskById(id) {
+            for (let d in appState.tasksByDate) {
+                const found = appState.tasksByDate[d].find(t => t.id === id);
+                if (found) return found;
+            }
+            return null;
+        }
+
+        /*************************************************************
+         * 6. UI RENDER ENGINE
+         *************************************************************/
+        function renderAll() {
+            ensureDaysGeneratedUpTo(viewingDateStr);
+            updateHeader();
+            renderDashboard();
+            renderDailyTargets();
+            renderBacklogView();
+            renderRevisionsView();
+            renderTimetable();
+            renderSyllabus();
+        }
+
+        function updateHeader() {
+            const dayNum = getDayNumber(viewingDateStr);
+            document.getElementById('display-day-num').innerText = dayNum > 0 ? `Day ${dayNum}` : `Pre-Start`;
+            
+            const dateObj = parseLocalDate(viewingDateStr);
+            const options = { day: 'numeric', month: 'short', year: 'numeric' };
+            document.getElementById('display-date').innerText = dateObj.toLocaleDateString('en-GB', options);
+
+            // Update sidebar backlog badge
+            const realToday = getRealLocalDateStr();
+            const activeBacklog = getActiveBacklog(realToday);
+            const badge = document.getElementById('backlog-badge');
+            badge.innerText = activeBacklog.length;
+            badge.style.display = activeBacklog.length > 0 ? 'inline-block' : 'none';
+        }
+
+        function renderTaskItem(t, options = {}) {
+            const isCompleted = !!appState.completedTasks[t.id];
+            const isBacklog = options.isBacklog || false;
+            const isRevision = options.isRevision || false;
+
+            return `
+                <div class="task-item ${t.subject} ${isCompleted ? 'completed' : ''}">
+                    <div class="task-left">
+                        <div class="checkbox-custom" onclick="toggleTask('${t.id}')"></div>
+                        <div class="task-details">
+                            <div class="task-title">${t.title}</div>
+                            <div class="task-meta">
+                                <span><i class="fa-regular fa-clock"></i> ${t.duration || 'Flexible'}</span>
+                                ${isBacklog ? `<span class="tag backlog">Backlog (${t.dateStr})</span>` : ''}
+                                ${isRevision ? `<span class="tag revision">Revision Due</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderDashboard() {
+            const todayTasks = appState.tasksByDate[viewingDateStr] || [];
+            const activeBacklog = getActiveBacklog(viewingDateStr);
+            const revisionsDue = getRevisionsDueOn(viewingDateStr);
+
+            // Calculate Completion %
+            const completedToday = todayTasks.filter(t => appState.completedTasks[t.id]).length;
+            const totalToday = todayTasks.length;
+            const pct = totalToday > 0 ? Math.round((completedToday / totalToday) * 100) : 0;
+
+            document.getElementById('dash-progress-text').innerText = `${pct}%`;
+            document.getElementById('dash-progress-bar').style.width = `${pct}%`;
+
+            // Calculate Overall Completed Lectures
+            let totalLecs = PHYSICS_QUEUE.length + CHEM_QUEUE.length + BOTANY_QUEUE.length + ZOO_QUEUE.length;
+            let doneLecs = 0;
+            Object.keys(appState.completedTasks).forEach(id => {
+                if (appState.completedTasks[id] && id.includes('_lec')) doneLecs++;
+            });
+            document.getElementById('dash-lectures-count').innerText = `${doneLecs} / ${totalLecs}`;
+            document.getElementById('dash-lectures-sub').innerText = `${Math.round((doneLecs/totalLecs)*100)}% Overall`;
+
+            document.getElementById('dash-backlog-count').innerText = activeBacklog.length;
+            document.getElementById('dash-revision-count').innerText = revisionsDue.length;
+
+            // Simple Streak Calculation
+            let streak = 0;
+            let curr = viewingDateStr;
+            while (true) {
+                const tasks = appState.tasksByDate[curr];
+                if (!tasks || tasks.length === 0) break;
+                const allDone = tasks.every(t => appState.completedTasks[t.id]);
+                if (allDone) {
+                    streak++;
+                    curr = addDays(curr, -1);
+                } else {
+                    break;
+                }
+            }
+            document.getElementById('dash-streak').innerText = `${streak} Days`;
+
+            // Lists Renders
+            const pBacklogContainer = document.getElementById('dash-priority-backlog');
+            if (activeBacklog.length === 0) {
+                pBacklogContainer.innerHTML = `<div class="empty-state">No backlog pending! Great job!</div>`;
+            } else {
+                pBacklogContainer.innerHTML = activeBacklog.slice(0, 3).map(t => renderTaskItem(t, { isBacklog: true })).join('');
+            }
+
+            const tScheduleContainer = document.getElementById('dash-today-tasks');
+            if (todayTasks.length === 0) {
+                tScheduleContainer.innerHTML = `<div class="empty-state">No schedule generated for this date.</div>`;
+            } else {
+                tScheduleContainer.innerHTML = todayTasks.map(t => renderTaskItem(t)).join('');
+            }
+
+            // Subject Wise Progress Bars
+            renderSubjectProgress();
+        }
+
+        function renderSubjectProgress() {
+            const container = document.getElementById('subject-progress-list');
+            const subjects = [
+                { key: 'physics', label: 'Physics', queue: PHYSICS_QUEUE, color: 'var(--accent-physics)' },
+                { key: 'chemistry', label: 'Chemistry', queue: CHEM_QUEUE, color: 'var(--accent-chem)' },
+                { key: 'botany', label: 'Botany', queue: BOTANY_QUEUE, color: 'var(--accent-botany)' },
+                { key: 'zoology', label: 'Zoology', queue: ZOO_QUEUE, color: 'var(--accent-zoo)' }
+            ];
+
+            container.innerHTML = subjects.map(s => {
+                const total = s.queue.length;
+                let done = 0;
+                s.queue.forEach((q, idx) => {
+                    // Match task pattern date_subject_lec
+                    Object.keys(appState.completedTasks).forEach(tid => {
+                        if (appState.completedTasks[tid] && tid.includes(`_${s.key.substring(0, 3)}_lec`)) {
+                            // Checked via global logic count
+                        }
+                    });
+                });
+
+                // Count completed lectures for this subject
+                done = Object.keys(appState.completedTasks).filter(tid => 
+                    appState.completedTasks[tid] && (
+                        (s.key === 'physics' && tid.includes('_phy_lec')) ||
+                        (s.key === 'chemistry' && tid.includes('_chem_lec')) ||
+                        (s.key === 'botany' && tid.includes('_bot_lec')) ||
+                        (s.key === 'zoology' && tid.includes('_zoo_lec'))
+                    )
+                ).length;
+
+                const percent = Math.round((done / total) * 100);
+
+                return `
+                    <div>
+                        <div style="display:flex; justify-between; font-size: 0.85rem; margin-bottom: 0.25rem;">
+                            <span>${s.label}</span>
+                            <span style="margin-left:auto;">${done}/${total} lecs (${percent}%)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${percent}%; background-color: ${s.color}"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderDailyTargets() {
+            const activeBacklog = getActiveBacklog(viewingDateStr);
+            const todayTasks = appState.tasksByDate[viewingDateStr] || [];
+
+            const backlogList = document.getElementById('target-backlog-list');
+            if (activeBacklog.length === 0) {
+                backlogList.innerHTML = `<div class="empty-state">No active backlog tasks.</div>`;
+            } else {
+                backlogList.innerHTML = activeBacklog.map(t => renderTaskItem(t, { isBacklog: true })).join('');
+            }
+
+            const todayList = document.getElementById('target-today-list');
+            if (todayTasks.length === 0) {
+                todayList.innerHTML = `<div class="empty-state">No targets generated for this day.</div>`;
+            } else {
+                todayList.innerHTML = todayTasks.map(t => renderTaskItem(t)).join('');
+            }
+        }
+
+        function renderBacklogView() {
+            const activeBacklog = getActiveBacklog(viewingDateStr);
+            const container = document.getElementById('full-backlog-list');
+            if (activeBacklog.length === 0) {
+                container.innerHTML = `<div class="empty-state">Clean slate! No backlog tasks found across past days.</div>`;
+            } else {
+                container.innerHTML = activeBacklog.map(t => renderTaskItem(t, { isBacklog: true })).join('');
+            }
+        }
+
+        function renderRevisionsView() {
+            const container = document.getElementById('revision-task-list');
+            const revisionsDue = getRevisionsDueOn(viewingDateStr);
+
+            if (revisionsDue.length === 0) {
+                container.innerHTML = `<div class="empty-state">No scheduled long-term revisions due today. Complete daily lectures to trigger automatically scheduled revisions (+3, +7, +21 days...).</div>`;
+            } else {
+                container.innerHTML = revisionsDue.map(r => {
+                    const isCompleted = !!appState.completedTasks[r.id];
+                    return `
+                        <div class="task-item ${r.subject} ${isCompleted ? 'completed' : ''}">
+                            <div class="task-left">
+                                <div class="checkbox-custom" onclick="toggleTask('${r.id}')"></div>
+                                <div class="task-details">
+                                    <div class="task-title">${r.title}</div>
+                                    <div class="task-meta">
+                                        <span><i class="fa-regular fa-calendar"></i> Target Date: ${r.dueDateStr}</span>
+                                        <span class="tag revision">+${r.interval} Day Cycle</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        function renderTimetable() {
+            const container = document.getElementById('timetable-slots');
+            container.innerHTML = TIMETABLE_SCHEDULE.map(slot => `
+                <div class="tt-slot">
+                    <div class="tt-time">${slot.time}</div>
+                    <div class="tt-desc">
+                        <strong>${slot.title}</strong>
+                        <span style="font-size:0.75rem; color:var(--text-secondary); margin-left: 0.5rem;">(${slot.duration})</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderSyllabus() {
+            const container = document.getElementById('syllabus-accordion');
+            const subjects = [
+                { key: 'physics', label: 'Physics', data: SYLLABUS.physics },
+                { key: 'chemistry', label: 'Chemistry', data: SYLLABUS.chemistry },
+                { key: 'botany', label: 'Botany', data: SYLLABUS.botany },
+                { key: 'zoology', label: 'Zoology', data: SYLLABUS.zoology }
+            ];
+
+            container.innerHTML = subjects.map(s => `
+                <div class="subject-block">
+                    <div class="subject-header">
+                        <span><i class="fa-solid fa-book"></i> ${s.label} Syllabus</span>
+                        <span>${s.data.length} Chapters</span>
+                    </div>
+                    <div class="chapter-list">
+                        ${s.data.map((chap, idx) => `
+                            <div class="chapter-item">
+                                <div>
+                                    <strong>Ch ${idx + 1}: ${chap.name}</strong>
+                                    <div style="font-size: 0.75rem; color: var(--text-secondary);">${chap.lectures} Total Sequential Lectures</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        /*************************************************************
+         * 7. INTERACTION & HANDLERS
+         *************************************************************/
+        function toggleTask(id) {
+            if (appState.completedTasks[id]) {
+                delete appState.completedTasks[id];
+            } else {
+                appState.completedTasks[id] = true;
+                // If this task was a lecture, auto-generate long-term revisions
+                checkAndTriggerLongTermRevisions(id, viewingDateStr);
+            }
+            saveState();
+            renderAll();
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.view-panel').forEach(el => el.classList.remove('active'));
+
+            const targetNav = Array.from(document.querySelectorAll('.nav-item')).find(el => el.getAttribute('onclick').includes(tabId));
+            if (targetNav) targetNav.classList.add('active');
+
+            const viewPanel = document.getElementById(`view-${tabId}`);
+            if (viewPanel) viewPanel.classList.add('active');
+        }
+
+        function navigateDate(days) {
+            viewingDateStr = addDays(viewingDateStr, days);
+            renderAll();
+        }
+
+        function resetToToday() {
+            viewingDateStr = getRealLocalDateStr();
+            renderAll();
+        }
+
+        /*************************************************************
+         * 8. AUTOMATIC MIDNIGHT REFRESH & APP INIT
+         *************************************************************/
+        function setupMidnightAutoRefresh() {
+            const now = new Date();
+            const midnight = new Date(
+                now.getFullYear(),
+                now.getMonth(),
+                now.getDate() + 1,
+                0, 0, 2
+            );
+            const msToMidnight = midnight.getTime() - now.getTime();
+
+            setTimeout(() => {
+                viewingDateStr = getRealLocalDateStr();
+                renderAll();
+                setupMidnightAutoRefresh(); // Re-arm for next midnight
+            }, msToMidnight);
+        }
+
+        // Initialize Web Application
+        function initApp() {
+            loadState();
+            viewingDateStr = getRealLocalDateStr();
+            ensureDaysGeneratedUpTo(viewingDateStr);
+            renderAll();
+            setupMidnightAutoRefresh();
+        }
+
+        window.onload = initApp;
+    </script>
+</body>
+</html>
